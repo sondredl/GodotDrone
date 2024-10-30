@@ -45,14 +45,14 @@ func set_spline_points(points) -> void:
     var points_array := []
     points = points.replace("\n", "")
     var string_array: Array = points.split("]")
-    string_array.remove(string_array.size() - 1)
+    # string_array.remove(string_array.size() - 1)
     for string in string_array:
         if string.count("[") != 1:
             return
         else:
             string = string.replace("[", "")
         var vector_string: Array = string.split(")")
-        vector_string.remove(vector_string.size() - 1)
+        # vector_string.remove(vector_string.size() - 1)
         var vector_array := []
         for substring in vector_string:
             if substring.count("(") != 1:

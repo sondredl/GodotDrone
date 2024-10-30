@@ -18,3 +18,13 @@ res://drone/Drone.gd
 res://drone/Ghost.gd
 res://tracks/TimeTable.gd
 res://GUI/GUIControllerBinding.gd
+res://GUI/CalibrationMenu.gd
+res://GUI/ControlsMenu.gd
+res://GUI/GUIControllerAxisRange.gd
+res://drone/Motor.gd
+res://drone/Propeller.gd
+res://Assets/Drones/Parts/Frames/Frame1/ControlsMenuDrone.gd
+res://DebugGeometry.gd
+res://drone/FPVCamera/FPVCamera.gd
+res://drone/RadioController.gd
+res://tracks/PathedObject.gd

@@ -8,7 +8,7 @@ signal arm_input
 signal disarm_input
 
 
-@export var target_path: NodePath = null
+# @export var target_path: NodePath = null
 var target = null
 
 var input := [0.0, 0.0, 0.0, 0.0]
@@ -17,7 +17,7 @@ var axis_bindings := []
 
 
 func _ready() -> void:
-    target = get_node(target_path)
+    # target = get_node(target_path)
 
     var action_list := Controls.action_list
     for controller_action in action_list:

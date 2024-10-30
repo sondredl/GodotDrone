@@ -129,13 +129,12 @@ func _input(event: InputEvent) -> void:
                 if event is InputEventJoypadMotion and abs(
                         event.axis_value) > 0.8:
                     var axis: int = event.axis
-                    binding_text = "Axis %d (%s)" % [
-                        axis, Input.get_joy_axis_string(axis)]
+# gamepad
+                    # binding_text = "Axis %d (%s)" % [ axis, Input.get_joy_axis_string(axis)]
                     binding_valid = true
                 elif event is InputEventJoypadButton and event.button_index < JOY_BUTTON_MAX:
                     var button: int = event.button_index
-                    binding_text = "Button %d (%s)" % [
-                        button, Input.get_joy_button_string(button)]
+                    # binding_text = "Button %d (%s)" % [ button, Input.get_joy_button_string(button)]
                     binding_valid = true
                 if binding_valid:
                     binding_event = event
@@ -151,7 +150,9 @@ func _on_calibrate_pressed() -> void:
     if packed_calibration_menu.can_instantiate():
         var calibration_menu := packed_calibration_menu.instantiate()
         add_child(calibration_menu)
-        var _discard = calibration_menu.connect("calibration_step_changed", $SubViewportContainer / SubViewport / RadioTransmitter, "_on_calibration_step_changed")
+        # var _discard = calibration_menu.connect("calibration_step_changed",
+        # $SubViewportContainer / SubViewport / RadioTransmitter,
+        # "_on_calibration_step_changed")
         calibration_menu.emit_signal(
             "calibration_step_changed",
             calibration_menu.calibration_step)
@@ -290,22 +291,23 @@ func save_input_map() -> void:
                         config.erase_section_key(section, action_name + key)
             if action.bound:
                 config.set_value(section, action_name, action.type)
-                if action.type == ControllerAction.Type.BUTTON:
-                    config.set_value(
-                        section,
-                        action_name + "_button",
-                        Input.get_joy_button_string(
-                            action.button))
-                elif action.type == ControllerAction.Type.AXIS:
-                    config.set_value(
-                        section,
-                        action_name + "_axis",
-                        Input.get_joy_axis_string(
-                            action.axis))
-                    config.set_value(
-                        section, action_name + "_min", action.axis_min)
-                    config.set_value(
-                        section, action_name + "_max", action.axis_max)
+    # gamepad
+                # if action.type == ControllerAction.Type.BUTTON:
+                # 	config.set_value(
+                # 		section,
+                # 		action_name + "_button",
+                # 		Input.get_joy_button_string(
+                # 			action.button))
+                # elif action.type == ControllerAction.Type.AXIS:
+                # 	config.set_value(
+                # 		section,
+                # 		action_name + "_axis",
+                # 		Input.get_joy_axis_string(
+                # 			action.axis))
+                # 	config.set_value(
+                # 		section, action_name + "_min", action.axis_min)
+                # 	config.set_value(
+                # 		section, action_name + "_max", action.axis_max)
         err = config.save(Controls.input_map_path)
         if err != OK:
             Global.log_error(err, "Error while saving input map.")
@@ -328,18 +330,19 @@ func _on_binding_clicked(binding: GUIControllerBinding) -> void:
         binding.label.text]
     var current_binding_text := "..."
     if !binding_popup_clear:
-        if binding.device >= 0 and binding.axis >= 0:
-            current_binding_text = Input.get_joy_axis_string(binding.axis)
+      # gamepad
+        # if binding.device >= 0 and binding.axis >= 0:
+        # 	current_binding_text = Input.get_joy_axis_string(binding.axis)
         var action_events := InputMap.action_get_events(binding.action)
         if !action_events.is_empty():
             if action_events[0] is InputEventJoypadMotion:
                 var axis: int = action_events[0].axis
-                current_binding_text = "Axis %d (%s)" % [
-                    axis, Input.get_joy_axis_string(axis)]
+  # gamepad
+                # current_binding_text = "Axis %d (%s)" % [ axis, Input.get_joy_axis_string(axis)]
             elif action_events[0] is InputEventJoypadButton:
                 var button: int = action_events[0].button_index
-                current_binding_text = "Button %d (%s)" % [
-                    button, Input.get_joy_button_string(button)]
+  # gamepad
+                # current_binding_text = "Button %d (%s)" % [ button, Input.get_joy_button_string(button)]
     binding_popup.set_text(binding_popup_text + "\n" + current_binding_text)
     binding_popup.set_buttons("Confirm", "Cancel", "Clear")
     show_binding_popup = true

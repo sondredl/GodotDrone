@@ -67,7 +67,7 @@ func _physics_process(_delta: float) -> void:
     if Engine.is_editor_hint():
         return
 
-    var abs_rpm := abs(rpm)
+    var abs_rpm = abs(rpm)
     update_sound(abs_rpm)
 
 

@@ -2,7 +2,7 @@ extends Camera3D
 class_name FPVCamera
 
 
-@export var fov_h := 150.0: set = set_fov
+# @export var fov_h := 150.0: set = set_fov
 @export var clip_near := 0.005  # (float, 0.001, 1)
 @export var clip_far := 1000.0  # (float, 10, 10000)
 var viewports := []
@@ -44,18 +44,18 @@ func _ready() -> void:
     render_quad.mesh.surface_set_material(0, mat)
     render_quad.visible = false
 
-    mat.set_shader_parameter("hfov", fov_h)
+    # mat.set_shader_parameter("hfov", fov_h)
 
-    var root_viewport: SubViewport = get_tree().root
+    # var root_viewport: SubViewport = get_tree().root
     for i in range(num_cameras):
         var viewport := SubViewport.new()
         add_child(viewport)
         viewport.size = Graphics.fisheye_resolution * Vector2.ONE
-        viewport.shadow_atlas_size = root_viewport.shadow_atlas_size
-        if Graphics.graphics_settings["fisheye_msaa"] == Graphics.FisheyeMSAA.SAME_AS_GAME:
-            viewport.msaa = root_viewport.msaa
-        else:
-            viewport.msaa = Graphics.graphics_settings["fisheye_msaa"]
+        # viewport.shadow_atlas_size = root_viewport.shadow_atlas_size
+        # if Graphics.graphics_settings["fisheye_msaa"] == Graphics.FisheyeMSAA.SAME_AS_GAME:
+        # 	viewport.msaa = root_viewport.msaa
+        # else:
+        # 	viewport.msaa = Graphics.graphics_settings["fisheye_msaa"]
         viewport.hdr = true
         viewport.keep_3d_linear = true
         viewports.append(viewport)
@@ -87,9 +87,9 @@ func _process(_delta: float) -> void:
             cameras[4].rotate_object_local(Vector3.RIGHT, PI / 2)
 
 
-func set_fov(angle: float) -> void:
-    fov_h = angle
-    mat.set_shader_parameter("hfov", fov_h)
+# func set_fov(angle: float) -> void:
+# 	fov_h = angle
+# 	mat.set_shader_parameter("hfov", fov_h)
 
 
 func show_fisheye(show: bool) -> void:

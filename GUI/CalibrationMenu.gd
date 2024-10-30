@@ -16,7 +16,7 @@ var packed_popup := load("res://GUI/ConfirmationPopup.tscn")
 var display_popup := false
 
 signal calibration_step_changed
-signal calibration_done
+# signal calibration_done
 signal back
 
 
@@ -211,42 +211,41 @@ func save_input_map() -> int:
             "active_controller_name",
             Input.get_joy_name(device))
 
-        config.set_value(
-            "controls_%s" %
-            [guid],
-            "throttle_up",
-            Input.get_joy_axis_string(
-                throttle[1].axis))
+        # config.set_value(
+        # 	"controls_%s" %
+        # 	[guid],
+        # 	"throttle_up",
+        # 	Input.get_joy_axis_string( throttle[1].axis))
         var inverted := false
         if sign(throttle[2].axis_value) < 0:
             inverted = true
         config.set_value("controls_%s" % [guid], "throttle_inverted", inverted)
-        config.set_value(
-            "controls_%s" %
-            [guid],
-            "yaw_left",
-            Input.get_joy_axis_string(
-                yaw[1].axis))
+        # config.set_value(
+        # 	"controls_%s" %
+        # 	[guid],
+        # 	"yaw_left",
+        # 	Input.get_joy_axis_string(
+        # 		yaw[1].axis))
         inverted = false
         if sign(yaw[2].axis_value) < 0:
             inverted = true
         config.set_value("controls_%s" % [guid], "yaw_inverted", inverted)
-        config.set_value(
-            "controls_%s" %
-            [guid],
-            "pitch_up",
-            Input.get_joy_axis_string(
-                pitch[1].axis))
+        # config.set_value(
+        # 	"controls_%s" %
+        # 	[guid],
+        # 	"pitch_up",
+        # 	Input.get_joy_axis_string(
+        # 		pitch[1].axis))
         inverted = false
         if sign(pitch[2].axis_value) > 0:
             inverted = true
         config.set_value("controls_%s" % [guid], "pitch_inverted", inverted)
-        config.set_value(
-            "controls_%s" %
-            [guid],
-            "roll_left",
-            Input.get_joy_axis_string(
-                roll[1].axis))
+        # config.set_value(
+        # 	"controls_%s" %
+        # 	[guid],
+        # 	"roll_left",
+        # 	Input.get_joy_axis_string(
+        # 		roll[1].axis))
         inverted = false
         if sign(roll[2].axis_value) < 0:
             inverted = true

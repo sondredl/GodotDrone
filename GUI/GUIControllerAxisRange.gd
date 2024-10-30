@@ -70,14 +70,14 @@ func _input(event: InputEvent) -> void:
             var button_size := button_low.size
             var xmin := -button_size.x / 2
             var xmax := button_high.position.x - button_size.x
-            var posx := clamp(button_pos.x + delta, xmin, xmax - 1)
+            var posx = clamp(button_pos.x + delta, xmin, xmax - 1)
             button_low.position = Vector2(posx, button_pos.y)
         elif dragging == 2:
             var button_pos := button_high.position
             var button_size := button_high.size
             var xmin := button_low.position.x + button_low.size.x
             var xmax := axis_size.x - button_size.x / 2
-            var posx := clamp(button_pos.x + delta, xmin + 1, xmax)
+            var posx = clamp(button_pos.x + delta, xmin + 1, xmax)
             button_high.position = Vector2(posx, button_pos.y)
         update_bounds()
 

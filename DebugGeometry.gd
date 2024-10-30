@@ -12,9 +12,9 @@ var triangles = []
 enum DebugShape {CUBE, SPHERE, CYLINDER, CONE, ARROW, COORDINATE_SYSTEM, GRID, LINE, POINT}
 
 
-func _ready():
-    m.set_flag(3, true)
-    material_override = m
+# func _ready():
+# 	m.set_flag(3, true)
+# 	material_override = m
 
 
 func _process(delta):
@@ -54,20 +54,20 @@ func update_geometry_timer(delta):
 
 
 func clear_geometry():
-    clear()
+    # clear()
     lines.clear()
     triangles.clear()
 
 
 func draw_geometry(lines_index: int=0, triangles_index: int=0):
-    begin(Mesh.PRIMITIVE_LINES)
+    # begin(Mesh.PRIMITIVE_LINES)
     for i in range(lines_index, lines.size()):
         add_geometry(lines[i])
-    end()
-    begin(Mesh.PRIMITIVE_TRIANGLES)
+    # end()
+    # begin(Mesh.PRIMITIVE_TRIANGLES)
     for i in range(triangles_index, triangles.size()):
         add_geometry(triangles[i])
-    end()
+    # end()
 
 
 func add_geometry(args):
@@ -110,10 +110,10 @@ func add_geometry(args):
                 args[8],
                 args[9],
                 args[10])
-        DebugShape.LINE:
-            _draw_line(args[3], args[4], args[5], args[6])
-        DebugShape.POINT:
-            _draw_point(args[3], args[4], args[5])
+        # DebugShape.LINE:
+        # 	_draw_line(args[3], args[4], args[5], args[6])
+        # DebugShape.POINT:
+        # 	_draw_point(args[3], args[4], args[5])
 
 
 func draw_stuff():
@@ -215,13 +215,13 @@ func draw_debug_sphere(t: float, p: Vector3, lon: int, lat: int, r: float,
 func draw_debug_cylinder(t: float, p1: Vector3, p2: Vector3, r: float, lon: int=8, b_caps=true,
                          color: Color=Color(0, 0, 0), b_triangles=false):
     items.append([b_triangles, t, DebugShape.CYLINDER,
-                 p1, p2, r, lon, b_caps, color])
+                  p1, p2, r, lon, b_caps, color])
 
 
 func draw_debug_cone(t: float, p1: Vector3, p2: Vector3, r1: float, r2: float, lon: int=8,
                      b_caps=true, color: Color=Color(0, 0, 0), b_triangles=false):
     items.append([b_triangles, t, DebugShape.CONE,
-                 p1, p2, r1, r2, lon, b_caps, color])
+                  p1, p2, r1, r2, lon, b_caps, color])
 
 
 func draw_debug_arrow(t: float, p: Vector3, n: Vector3, s: float=1.0,
@@ -237,7 +237,7 @@ func draw_debug_coordinate_system(t: float, p: Vector3, x: Vector3=Vector3.RIGHT
 func draw_debug_grid(t: float, p: Vector3, a: float, b: float, div_a: int, div_b: int,
                      normal: Vector3=Vector3(0, 1, 0), orthogonal: Vector3=Vector3(1, 0, 0), color: Color=Color(0, 0, 0)):
     items.append([false, t, DebugShape.GRID, p, a, b,
-                 div_a, div_b, normal, orthogonal, color])
+                  div_a, div_b, normal, orthogonal, color])
 
 
 func draw_debug_line(t: float, p1: Vector3, p2: Vector3, thickness: float, color: Color=Color(0, 0, 0)):
@@ -254,15 +254,15 @@ func draw_debug_point(t: float, p: Vector3, size: float, color: Color=Color(0, 0
     items.append([b_triangles, t, DebugShape.POINT, p, size, color])
 
 
-func add_line(p1: Vector3, p2: Vector3):
-    add_vertex(p1)
-    add_vertex(p2)
+# func add_line(p1: Vector3, p2: Vector3):
+# 	add_vertex(p1)
+# 	add_vertex(p2)
 
 
-func add_triangle(p1: Vector3, p2: Vector3, p3: Vector3):
-    add_vertex(p1)
-    add_vertex(p2)
-    add_vertex(p3)
+# func add_triangle(p1: Vector3, p2: Vector3, p3: Vector3):
+# 	add_vertex(p1)
+# 	add_vertex(p2)
+# 	add_vertex(p3)
 
 
 func _draw_cube(p: Vector3, extents: Vector3, c: Color=Color(0, 0, 0), b_triangles=false):
@@ -278,33 +278,33 @@ func _draw_cube(p: Vector3, extents: Vector3, c: Color=Color(0, 0, 0), b_triangl
                   Vector3(x, y, -z) + p,
                   Vector3(x, y, z) + p]
 
-    set_color(c)
-    if b_triangles:
-        add_triangle(points[0], points[2], points[3])
-        add_triangle(points[3], points[1], points[0])
-        add_triangle(points[4], points[5], points[7])
-        add_triangle(points[7], points[6], points[4])
-        add_triangle(points[0], points[1], points[5])
-        add_triangle(points[5], points[4], points[0])
-        add_triangle(points[3], points[2], points[7])
-        add_triangle(points[7], points[2], points[6])
-        add_triangle(points[0], points[4], points[2])
-        add_triangle(points[2], points[4], points[6])
-        add_triangle(points[1], points[3], points[7])
-        add_triangle(points[7], points[5], points[1])
-    else:
-        add_line(points[0], points[1])
-        add_line(points[1], points[3])
-        add_line(points[3], points[2])
-        add_line(points[2], points[0])
-        add_line(points[4], points[5])
-        add_line(points[5], points[7])
-        add_line(points[7], points[6])
-        add_line(points[6], points[4])
-        add_line(points[0], points[4])
-        add_line(points[1], points[5])
-        add_line(points[3], points[7])
-        add_line(points[2], points[6])
+    # set_color(c)
+    # if b_triangles:
+    # 	add_triangle(points[0], points[2], points[3])
+    # 	add_triangle(points[3], points[1], points[0])
+    # 	add_triangle(points[4], points[5], points[7])
+    # 	add_triangle(points[7], points[6], points[4])
+    # 	add_triangle(points[0], points[1], points[5])
+    # 	add_triangle(points[5], points[4], points[0])
+    # 	add_triangle(points[3], points[2], points[7])
+    # 	add_triangle(points[7], points[2], points[6])
+    # 	add_triangle(points[0], points[4], points[2])
+    # 	add_triangle(points[2], points[4], points[6])
+    # 	add_triangle(points[1], points[3], points[7])
+    # 	add_triangle(points[7], points[5], points[1])
+    # else:
+    # 	add_line(points[0], points[1])
+    # 	add_line(points[1], points[3])
+    # 	add_line(points[3], points[2])
+    # 	add_line(points[2], points[0])
+    # 	add_line(points[4], points[5])
+    # 	add_line(points[5], points[7])
+    # 	add_line(points[7], points[6])
+    # 	add_line(points[6], points[4])
+    # 	add_line(points[0], points[4])
+    # 	add_line(points[1], points[5])
+    # 	add_line(points[3], points[7])
+    # 	add_line(points[2], points[6])
 
 
 func _draw_sphere(p: Vector3, lon: int, lat: int, r: float, c: Color=Color(0, 0, 0), b_triangles=false):
@@ -328,13 +328,13 @@ func _draw_sphere(p: Vector3, lon: int, lat: int, r: float, c: Color=Color(0, 0,
                           r * Vector3(x0 * r1, y1, z0 * r1) + p,
                           r * Vector3(x0 * r0, y0, z0 * r0) + p]
 
-            set_color(c)
-            if b_triangles:
-                add_triangle(points[0], points[1], points[2])
-                add_triangle(points[2], points[3], points[0])
-            else:
-                add_line(points[0], points[1])
-                add_line(points[1], points[2])
+            # set_color(c)
+            # if b_triangles:
+            # 	add_triangle(points[0], points[1], points[2])
+            # 	add_triangle(points[2], points[3], points[0])
+            # else:
+            # 	add_line(points[0], points[1])
+            # 	add_line(points[1], points[2])
 
 
 func _draw_cylinder(p1: Vector3, p2: Vector3, r: float, lon: int=8, b_caps=true,
@@ -371,20 +371,20 @@ func _draw_cone(p1: Vector3, p2: Vector3, r1: float, r2: float, lon: int=8,
         for j in range(points.size()):
             points[j] = points[j].rotated(rot, ang) + p1
 
-        set_color(color)
-        if b_triangles:
-            add_triangle(points[0], points[2], points[1])
-            add_triangle(points[1], points[2], points[3])
-            if b_caps:
-                add_triangle(points[0], points[4], points[2])
-                add_triangle(points[1], points[3], points[5])
-        else:
-            add_line(points[0], points[1])
-            add_line(points[1], points[3])
-            add_line(points[2], points[0])
-            if b_caps:
-                add_line(points[0], points[4])
-                add_line(points[1], points[5])
+        # set_color(color)
+        # if b_triangles:
+        # 	add_triangle(points[0], points[2], points[1])
+        # 	add_triangle(points[1], points[2], points[3])
+        # 	if b_caps:
+        # 		add_triangle(points[0], points[4], points[2])
+        # 		add_triangle(points[1], points[3], points[5])
+        # else:
+        # 	add_line(points[0], points[1])
+        # 	add_line(points[1], points[3])
+        # 	add_line(points[2], points[0])
+        # 	if b_caps:
+        # 		add_line(points[0], points[4])
+        # 		add_line(points[1], points[5])
 
 
 func _draw_arrow(p: Vector3, n: Vector3, s: float=1.0, c: Color=Color(0, 0, 0), b_triangles=true):
@@ -428,47 +428,47 @@ func _draw_grid(p: Vector3, a: float, b: float, div_a: int, div_b: int,
     if rotated_right_vector.cross(proj).normalized() != normal.normalized():
         tangent_angle = -tangent_angle
 
-    set_color(color)
+    # set_color(color)
     for i in range(0, div_a + 1):
         var lx = a * (i as float / div_a - 0.5)
-        add_line(Vector3(lx, 0, -
-                         b /
-                         2.0).rotated(normal_rot, normal_angle).rotated(tangent_rot, tangent_angle) +
-                 p, Vector3(lx, 0, b /
-                            2.0).rotated(normal_rot, normal_angle).rotated(tangent_rot, tangent_angle) +
-                 p)
+        # add_line(Vector3(lx, 0, -
+        # 				 b /
+        # 				 2.0).rotated(normal_rot, normal_angle).rotated(tangent_rot, tangent_angle) +
+        # 		 p, Vector3(lx, 0, b /
+        # 					2.0).rotated(normal_rot, normal_angle).rotated(tangent_rot, tangent_angle) +
+        # 		 p)
     for j in range(0, div_b + 1):
         var lz = b * (j as float / div_b - 0.5)
-        add_line(
-            Vector3(
-                -a / 2.0,
-                0,
-                lz).rotated(
-                normal_rot,
-                normal_angle).rotated(
-                tangent_rot,
-                tangent_angle) + p,
-            Vector3(
-                a / 2.0,
-                0,
-                lz).rotated(
-                normal_rot,
-                normal_angle).rotated(
-                tangent_rot,
-                tangent_angle) + p)
+        # add_line(
+        # 	Vector3(
+        # 		-a / 2.0,
+        # 		0,
+        # 		lz).rotated(
+        # 		normal_rot,
+        # 		normal_angle).rotated(
+        # 		tangent_rot,
+        # 		tangent_angle) + p,
+        # 	Vector3(
+        # 		a / 2.0,
+        # 		0,
+        # 		lz).rotated(
+        # 		normal_rot,
+        # 		normal_angle).rotated(
+        # 		tangent_rot,
+        # 		tangent_angle) + p)
 
 
-func _draw_line(p1: Vector3, p2: Vector3, thickness: float, color: Color=Color(0, 0, 0)):
-    set_color(color)
-    if thickness <= 0.0:
-        add_line(p1, p2)
-    else:
-        _draw_cylinder(p1, p2, thickness / 2, 8, false, color, true)
+# func _draw_line(p1: Vector3, p2: Vector3, thickness: float, color: Color=Color(0, 0, 0)):
+# 	set_color(color)
+# 	if thickness <= 0.0:
+# 		add_line(p1, p2)
+# 	else:
+# 		_draw_cylinder(p1, p2, thickness / 2, 8, false, color, true)
 
 
-func _draw_point(p: Vector3, size: float, color: Color=Color(0, 0, 0)):
-    set_color(color)
-    if size <= 0:
-        add_line(p, p)
-    else:
-        _draw_sphere(p, 8, 4, size / 2, color, true)
+# func _draw_point(p: Vector3, size: float, color: Color=Color(0, 0, 0)):
+# 	set_color(color)
+# 	if size <= 0:
+# 		add_line(p, p)
+# 	else:
+# 		_draw_sphere(p, 8, 4, size / 2, color, true)
