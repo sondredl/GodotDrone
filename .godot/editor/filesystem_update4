@@ -2,3 +2,5 @@ res://default_env.tres
 res://GUI/MainMenu.tscn
 res://GUI/ThemeMenu.tres
 res://Assets/GridShader.tres
+res://sceneries/cameras/FlyaroundCamera.tscn
+res://sceneries/cameras/FollowCamera.tscn

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://crsiy2aw867cn"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends Node3D
 
 
@@ -62,7 +62,7 @@ func _input(event: InputEvent) -> void:
 "
 
 [node name="FlyaroundCamera" type="Node3D"]
-script = SubResource( 1 )
+script = SubResource("1")
 
 [node name="RotationHelper" type="Node3D" parent="."]
 
