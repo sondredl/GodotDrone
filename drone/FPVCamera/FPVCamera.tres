@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=7 format=2]
 
-[ext_resource path="res://drone/FPVCamera/FPVCamera.shader" type="Shader" id=1]
+[ext_resource path="res://drone/FPVCamera/FPVCamera.gdshader" type="Shader" id=1]
 
 [sub_resource type="ViewportTexture" id=1]
 

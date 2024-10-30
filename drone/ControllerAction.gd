@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 class_name ControllerAction
 
 
@@ -16,14 +16,14 @@ var axis_max := 1.0
 
 
 func init(a_name: String, a_label: String) -> void:
-	action_name = a_name
-	action_label = a_label
+    action_name = a_name
+    action_label = a_label
 
 
 func unbind() -> void:
-	bound = false
-	type = Type.NULL
-	button = -1
-	axis = -1
-	axis_min = 0.0
-	axis_max = 1.0
+    bound = false
+    type = Type.NULL
+    button = -1
+    axis = -1
+    axis_min = 0.0
+    axis_max = 1.0
