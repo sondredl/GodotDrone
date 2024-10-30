@@ -34,7 +34,7 @@ func _input(event: InputEvent) -> void:
 
 
 func initialize() -> void:
-    var dir := DirAccess.new()
+    var dir = DirAccess.new.call()
     if not dir.dir_exists(config_dir):
         if dir.dir_exists(config_dir_old):
             var _discard = dir.rename(config_dir_old, config_dir)
@@ -46,8 +46,8 @@ func initialize() -> void:
         else:
             var _discard = dir.make_dir(replay_dir)
     if not dir.file_exists(highscore_path):
-        var file := File.new()
-        var _discard = file.open(highscore_path, File.WRITE)
+        var file = FileAccess.new.call()
+        var _discard = file.open(highscore_path, FileAccess.WRITE)
         file.close()
 
     startup = false
@@ -70,8 +70,8 @@ func show_error_popup(control: Control, error: String) -> void:
 
 
 func log_error(err_code: int, message: String="") -> void:
-    var file := File.new()
-    var _discard = file.open(log_path, File.WRITE_READ)
+    var file = FileAccess.new.call()
+    var _discard = file.open(log_path, FileAccess.WRITE_READ)
     file.store_line("%s ERROR %d: %s" %
                     [get_formatted_date_time(), err_code, message])
     file.close()

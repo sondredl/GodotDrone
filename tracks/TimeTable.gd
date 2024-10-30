@@ -41,19 +41,21 @@ func _ready() -> void:
 
 func add_lap(time: LapTimer) -> void:
     laps += 1
-    add_labels(String(laps), time.get_time_string())
+    add_labels(str(laps), time.get_time_string())
 
 
 func add_labels(lap: String, time: String) -> void:
     var label := Label.new()
     label.text = lap
     label.theme = label_theme
-    label.align = Label.ALIGNMENT_CENTER
+    # label.align = Label.ALIGNMENT_CENTER
+    label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     grid.add_child(label)
     label = Label.new()
     label.text = time
     label.theme = label_theme
-    label.align = Label.ALIGNMENT_CENTER
+    # label.align = Label.ALIGNMENT_CENTER
+    label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     grid.add_child(label)
 
 

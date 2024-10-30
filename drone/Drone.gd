@@ -203,11 +203,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
         steps = 1
     var dt := state.step / (steps as float)
 
-    var xform := drone_transform.orthonormalized()
+    var xform = drone_transform.orthonormalized()
     var pos = xform.origin
-    var basis := xform.basis
-    var lin_vel := state.linear_velocity
-    var ang_vel := state.angular_velocity
+    var basis = xform.basis
+    var lin_vel = state.linear_velocity
+    var ang_vel = state.angular_velocity
 
     for i in range(steps):
         flight_controller.integrate_loop(dt, pos, basis)
@@ -222,9 +222,10 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
             var prop_xform: Transform3D = motor.transform * prop.transform
             var prop_local_pos: Vector3 = (prop_pos) * prop_xform
             prop.set_velocity(
-                (lin_vel) *
-                basis +
-                basis.xform_inv(ang_vel).cross(prop_local_pos))
+                (lin_vel * basis) + basis.inverse().xform(ang_vel).cross(prop_local_pos))
+            # prop.set_velocity( (lin_vel) * basis + basis.xform_inv(ang_vel).cross(prop_local_pos))
+# prop.set_velocity((lin_vel * basis) + basis.inverse().xform(ang_vel).cross(prop_local_pos))
+
             prop.update_forces()
             var prop_forces: Array = prop.forces
             var prop_thrust: Vector3 = basis * (prop_forces[0])
@@ -261,7 +262,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 
         var ang_a := vec_torque * state.inverse_inertia
         ang_vel += ang_a * dt
-        var delta_ang_vel := ang_vel * dt
+        var delta_ang_vel = ang_vel * dt
         if delta_ang_vel != Vector3.ZERO:
             basis = basis.rotated(
                 delta_ang_vel.normalized(),

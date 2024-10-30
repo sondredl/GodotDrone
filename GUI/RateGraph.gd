@@ -25,7 +25,7 @@ func _ready() -> void:
             expo_pitch,
             expo_roll,
             expo_yaw))
-    update()
+    # update()
 
 
 func update_rates(rates: Vector3, expos: Vector3) -> void:
@@ -57,7 +57,7 @@ func update_rates(rates: Vector3, expos: Vector3) -> void:
         yaw[i].y = ((1 - expo_yaw) * input +
                     expo_yaw * pow(input, 3)) * rate_yaw
 
-    var max_rate := max(max(rate_pitch, rate_roll), rate_yaw)
+    var max_rate = max(max(rate_pitch, rate_roll), rate_yaw)
     for i in range(num_points):
         pitch[i].x = (pitch[i].x + 1) * graph_size / 2
         roll[i].x = (roll[i].x + 1) * graph_size / 2
@@ -65,7 +65,7 @@ func update_rates(rates: Vector3, expos: Vector3) -> void:
         pitch[i].y = (2 - (pitch[i].y / max_rate + 1)) * graph_size / 2
         roll[i].y = (2 - (roll[i].y / max_rate + 1)) * graph_size / 2
         yaw[i].y = (2 - (yaw[i].y / max_rate + 1)) * graph_size / 2
-    update()
+    # update()
 
 
 func _draw() -> void:
@@ -114,10 +114,10 @@ func _draw() -> void:
         Vector2(
             graph_size, 0), Vector2(
             graph_size, graph_size), Color(
-                0.8, 0.8, 0.8), 2)
+            0.8, 0.8, 0.8), 2)
     draw_line(
         Vector2(
             graph_size, graph_size), Vector2(
             0, graph_size), Color(
-                0.8, 0.8, 0.8), 2)
+            0.8, 0.8, 0.8), 2)
     draw_line(Vector2(0, graph_size), Vector2(0, 0), color_frame, 2)

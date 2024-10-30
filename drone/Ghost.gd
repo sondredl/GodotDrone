@@ -93,11 +93,11 @@ func read_replay():
             replay_path = replay_path.replace(".rpl", "_bronze.rpl")
         Type.ABORTED:
             replay_path = replay_path.replace(".rpl", "_aborted.rpl")
-    var file := File.new()
-    var err := file.open(replay_path, File.READ)
+    var file = FileAccess.new.call()
+    var err = file.open(replay_path, FileAccess.READ)
     if err == OK:
         while not file.eof_reached():
-            var line := file.get_line()
+            var line = file.get_line()
             if line == "":
                 break
             var xform: Array = line.split(",")

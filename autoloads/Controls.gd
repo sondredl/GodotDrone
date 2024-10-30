@@ -56,10 +56,28 @@ func update_default_device(device: int) -> int:
             err, "Error while updating default device in config file.")
     return err
 
+# Define a mapping from strings to axis constants
+var axis_mapping = {
+    "left_x": JOY_AXIS_LEFT_X,
+    "left_y": JOY_AXIS_LEFT_Y,
+    "right_x": JOY_AXIS_RIGHT_X,
+    "right_y": JOY_AXIS_RIGHT_Y,
+    "trigger_left": JOY_AXIS_TRIGGER_LEFT,
+    "trigger_right": JOY_AXIS_TRIGGER_RIGHT
+}
+
+# Get the configuration value and map it to the axis constant
+# var axis_string = config.get_value(section, action)
+# if axis_string in axis_mapping:
+# 	event.axis = axis_mapping[axis_string]
+# else:
+# 	push_error("Invalid joystick axis name: " + axis_string)
+
 
 func load_input_map(update_controller: bool=false) -> String:
-    var config := ConfigFile.new()
-    var err := config.load(input_map_path)
+    # var config := ConfigFile.new()
+    var config = ConfigFile.new.call()
+    var err = config.load(input_map_path)
     if err == OK:
         var controller_list := get_joypad_guid_list()
         active_controller_guid = config.get_value(
@@ -80,7 +98,7 @@ func load_input_map(update_controller: bool=false) -> String:
                 var _discard = update_active_device(active_device)
         if active_device >= 0:
             var section := "controls_%s" % [active_controller_guid]
-            var actions := config.get_section_keys(section)
+            var actions = config.get_section_keys(section)
             var event: InputEvent
             var current_action := ""
             var action_idx := -1
@@ -91,8 +109,10 @@ func load_input_map(update_controller: bool=false) -> String:
                     if ["throttle_up", "yaw_left", "pitch_up",
                             "roll_left"].has(action):
                         event = InputEventJoypadMotion.new()
-                        event.axis = Input.get_joy_axis_index_from_string(
-                            config.get_value(section, action))
+                        # event.axis = Input.get_joy_axis_index_from_string(config.get_value(section, action)) # gamepad
+                        # var axis_string = config.get_value(section, action)
+                        # event.axis = axis_mapping.get(axis_string, -1)  # Use
+                        # -1 as a fallback if the axis_string isn't found
                         event.axis_value = -1.0
                         current_action = action
                         continue
@@ -127,22 +147,22 @@ func load_input_map(update_controller: bool=false) -> String:
                         continue
                     if binding_type == ControllerAction.Type.BUTTON:
                         if action == current_action + "_button":
-                            action_list[action_idx].button = Input.get_joy_button_index_from_string(
-                                config.get_value(section, action))
+                            # gamepad
+                            # action_list[action_idx].button = Input.get_joy_button_index_from_string( config.get_value(section, action))
                             event = InputEventJoypadButton.new()
                             event.device = active_device
                             event.button_index = action_list[action_idx].button
                             InputMap.action_add_event(current_action, event)
-                    elif binding_type == ControllerAction.Type.AXIS:
-                        if action == current_action + "_axis":
-                            action_list[action_idx].axis = Input.get_joy_axis_index_from_string(
-                                config.get_value(section, action))
-                        elif action == current_action + "_min":
-                            action_list[action_idx].axis_min = config.get_value(
-                                section, action)
-                        elif action == current_action + "_max":
-                            action_list[action_idx].axis_max = config.get_value(
-                                section, action)
+                    # elif binding_type == ControllerAction.Type.AXIS:
+                        # if action == current_action + "_axis":
+                            # gamepad
+                            # action_list[action_idx].axis = Input.get_joy_axis_index_from_string( config.get_value(section, action))
+                        # elif action == current_action + "_min":
+                        # 	action_list[action_idx].axis_min = config.get_value(
+                        # 		section, action)
+                        # elif action == current_action + "_max":
+                        # 	action_list[action_idx].axis_max = config.get_value(
+                        # 		section, action)
             restore_keyboard_shortcuts()
         else:
             var active_name: String = config.get_value("controls", "active_controller_name")
@@ -175,8 +195,9 @@ func create_action_list() -> void:
 
 func get_joypad_guid_list() -> Array:
     var controller_list := Input.get_connected_joypads()
-    for i in range(controller_list.size()):
-        controller_list[i] = Input.get_joy_guid(controller_list[i])
+    # for i in range(controller_list.size()):
+    # gamepad
+    # 	controller_list[i] = Input.get_joy_guid(controller_list[i])
 
     return controller_list
 

@@ -85,8 +85,8 @@ func get_output(mv: float, dt: float, p_print: bool=false) -> float:
     proportional = kp * err
 
     integral += 0.5 * ki * dt * (err + err_prev)
-    var integral_max := max(clamp_high - proportional, 0)
-    var integral_min := min(clamp_low - proportional, 0)
+    var integral_max = max(clamp_high - proportional, 0)
+    var integral_min = min(clamp_low - proportional, 0)
     if integral <= integral_min or integral >= integral_max:
         windup = true
     else:

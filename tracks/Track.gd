@@ -8,7 +8,7 @@ signal race_state_changed(state)
 
 @export var edit_track := false: set = set_edit_track
 @export var selected_checkpoint := -1: set = set_selected_checkpoint
-@export var course  # (String, MULTILINE)
+@export var course = []  # (String, MULTILINE)
 var checkpoints := []
 var current_checkpoint: Checkpoint = null
 var current := 0
@@ -64,8 +64,7 @@ func _ready() -> void:
     for area in launch_areas:
         var _discard = area.connect("body_exited", Callable(self, "_on_body_exited_launchpad"))
 
-    replay_path = "%s/%s" % [Global.replay_dir,
-                             filename.replace(".tscn", ".rpl").split("/")[-1]]
+    # replay_path = "%s/%s" % [Global.replay_dir, drone.filename.replace(".tscn", ".rpl").split("/")[-1]]
     ghosts.clear()
     for _i in range(5):
         ghosts.append(Ghost.new())
@@ -237,16 +236,16 @@ func reset_track() -> void:
 
 
 func setup_countdown() -> void:
-    countdown_timer = Timer.new()
+    countdown_timer = Timer.new.call()
     add_child(countdown_timer)
     countdown_timer.one_shot = true
     var _discard = countdown_timer.connect("timeout", Callable(self, "_on_countdown_timer_timeout"))
 
-    countdown_label = Label.new()
+    countdown_label = Label.new.call()
     add_child(countdown_label)
     countdown_label.theme = load("res://GUI/ThemeCountdown.tres")
-    countdown_label.align = Label.ALIGNMENT_CENTER
-    countdown_label.valign = Label.VALIGN_CENTER
+    countdown_label.align = Label.horizontal_alignment
+    countdown_label.valign = Label.vertical_alignment
     countdown_label.set_anchors_and_offsets_preset(
         Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
     countdown_label.visible = false
@@ -256,8 +255,8 @@ func setup_end_label() -> void:
     end_label = Label.new()
     add_child(end_label)
     end_label.theme = load("res://GUI/ThemeCountdown.tres")
-    end_label.align = Label.ALIGNMENT_CENTER
-    end_label.valign = Label.VALIGN_CENTER
+    end_label.align = Label.horizontal_alignment
+    end_label.valign = Label.vertical_alignment
     end_label.set_anchors_and_offsets_preset(
         Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
     end_label.visible = false
@@ -267,8 +266,9 @@ func setup_timer_label() -> void:
     timer_label = Label.new()
     add_child(timer_label)
     timer_label.theme = load("res://GUI/ThemeTimer.tres")
-    timer_label.align = Label.ALIGN_LEFT
-    timer_label.valign = Label.VALIGN_TOP
+    # timer_label.align = Label.set_horizontal_alignment(left)
+    timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+    timer_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
     timer_label.set_anchors_and_offsets_preset(
         Control.PRESET_TOP_LEFT, Control.PRESET_MODE_MINSIZE)
     timer_label.visible = false
@@ -405,9 +405,10 @@ func display_time_table() -> void:
 
 
 func load_replays() -> void:
-    var file := File.new()
+    var file = FileAccess.new.call()
+    # var file = File.new.call()
     for i in range(5):
-        if file.open(replay_path, File.READ) == OK:
+        if file.open(replay_path, FileAccess.READ) == OK:
             if ghosts[i]:
                 ghosts[i].queue_free()
             ghosts[i] = Ghost.new()
@@ -442,7 +443,7 @@ func initialize_replay(drone: Drone) -> void:
 
 func delete_previous_replay() -> void:
     replay_recorder.clear()
-    var dir := DirAccess.new()
+    var dir = DirAccess.new.call()
     if dir.file_exists(replay_path):
         var _discard = dir.remove(replay_path)
 
@@ -450,8 +451,8 @@ func delete_previous_replay() -> void:
 func _on_drone_transform_updated(xform_string: String, init: bool=false) -> void:
     if record_replay:
         if init:
-            var file := File.new()
-            var err = file.open(replay_path, File.WRITE)
+            var file = FileAccess.new.call()
+            var err = file.open(replay_path, FileAccess.WRITE)
             if err == OK:
                 file.store_line(xform_string)
                 file.close()
@@ -462,8 +463,8 @@ func _on_drone_transform_updated(xform_string: String, init: bool=false) -> void
 
 
 func write_replay(lines: int) -> void:
-    var file := File.new()
-    var err = file.open(replay_path, File.READ_WRITE)
+    var file = FileAccess.new.call()
+    var err = file.open(replay_path, FileAccess.READ_WRITE)
     if err == OK:
         file.seek_end()
         for i in range(lines):
@@ -478,7 +479,7 @@ func stop_recording_replay(save: bool=false, race_completed: bool=true) -> void:
         if replay_recorder.size() > 0:
             write_replay(replay_recorder.size())
             replay_recorder.clear()
-        var dir := DirAccess.new()
+        var dir = DirAccess.new.call()
         if save:
             var replace := "prev"
             if race_completed == false:
@@ -492,13 +493,13 @@ func check_best_time() -> void:
     var total_time := 0.0
     for timer in timers:
         total_time += timer.time
-    var file := File.new()
+    var file = FileAccess.new.call()
     var track_name := replay_path.replace(".rpl", "").split("/")[-1]
     var record_exists := false
     var new_record := 0
-    if file.open(Global.highscore_path, File.READ) == OK:
+    if file.open(Global.highscore_path, FileAccess.READ) == OK:
         while not file.eof_reached():
-            var line := file.get_line()
+            var line = file.get_line()
             if line == track_name:
                 record_exists = true
                 while new_record < 3:
@@ -514,7 +515,7 @@ func check_best_time() -> void:
         file.close()
         if new_record < 3 or not record_exists:
             write_new_record(new_record, total_time)
-            var dir := DirAccess.new()
+            var dir = DirAccess.new.call()
             var replace := ["gold", "silver", "bronze"]
             for i in range(2 - new_record):
                 var _discard = dir.rename(replay_path.replace(".rpl", "_%s.rpl" % [replace[-2 - i]]),
@@ -526,24 +527,24 @@ func check_best_time() -> void:
 func write_new_record(position: int, time: float) -> void:
     var track_name := replay_path.replace(".rpl", "").split("/")[-1]
     var array := []
-    var file := File.new()
-    if file.open(Global.highscore_path, File.READ) == OK:
+    var file = FileAccess.new.call()
+    if file.open(Global.highscore_path, FileAccess.READ) == OK:
         while not file.eof_reached():
             array.append(file.get_line())
         file.close()
-        var _discard = file.open(Global.highscore_path, File.WRITE)
+        var _discard = file.open(Global.highscore_path, FileAccess.WRITE)
         var idx := array.find(track_name)
         if idx == -1:
             for element in array:
                 if element != "":
                     file.store_line(element)
             file.store_line(track_name)
-            file.store_line(String(time))
+            file.store_line(str(time))
         else:
             for i in range(idx + 1 + position):
                 if array[i] != "":
                     file.store_line(array[i])
-            file.store_line(String(time))
+            file.store_line(str(time))
             for i in range(idx + 2 + position, array.size()):
                 if array[i] != "":
                     file.store_line(array[i])

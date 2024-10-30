@@ -25,7 +25,7 @@ func _ready() -> void:
             horizon.size.x / 2, -i * pitch_marker_spacing)
 
 func update_ladder(pitch: float, roll: float) -> void:
-    var horizon_length := size.x / abs(cos(roll))
+    var horizon_length = size.x / abs(cos(roll))
     if horizon_length > size.length():
         horizon_length = size.y / abs(sin(roll))
     horizon.size.x = horizon_length - 10

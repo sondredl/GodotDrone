@@ -92,6 +92,11 @@ func update_window_mode() -> void:
             else:
                 get_window().borderless = false
 
+# func center_window() -> void:
+# 	var display_size = DisplayServer.window_get_size()
+# 	var window_size = DisplayServer.window_get_mode_size()
+# 	var new_position = (display_size - window_size) / 2
+# 	DisplayServer.window_set_position(new_position)
 
 func update_resolution() -> void:
     var resolution_multiplier := float(graphics_settings["resolution"]) / 100.0
@@ -101,7 +106,8 @@ func update_resolution() -> void:
         get_window().size = DisplayServer.screen_get_size()
     else:
         get_window().size = screen_resolution * resolution_multiplier
-        OS.center_window()
+        # OS.center_window()
+        # center_window()
     get_viewport().size = screen_resolution * resolution_multiplier
 
 

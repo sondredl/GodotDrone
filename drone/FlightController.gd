@@ -24,9 +24,11 @@ var angles_prev := angles
 var lin_vel := Vector3(0, 0, 0)
 var local_vel := Vector3(0, 0, 0)
 var ang_vel := Vector3(0, 0, 0)
-var basis := Basis()
-var basis_prev := basis
-var basis_flat := basis
+# var basis = Basis()
+# var basis_prev := basis
+# var basis_flat := basis
+var basis_prev = Basis()
+var basis_flat = Basis()
 
 var motors := []
 var hover_thrust := 0.0
@@ -54,7 +56,7 @@ var pid_scale_p := 0.004
 var pid_scale_i := 0.002
 var pid_scale_d := 0.0002
 
-var telemetry_file := File.new()
+var telemetry_file = FileAccess.new.call()
 
 
 @export var b_telemetry := false
@@ -115,7 +117,7 @@ func _ready() -> void:
     change_flight_mode(FlightMode.RATE)
 
     if b_telemetry:
-        var dir := DirAccess.new()
+        var dir = DirAccess.new.call()
         _discard = dir.remove("user://telemetry.csv")
 
 
@@ -214,19 +216,21 @@ func update_velocity() -> void:
     local_vel = (lin_vel) * basis
 
     var ref1 := Vector3(1, 0, 0)
-    var orb1 := ((pos + basis * (ref1) - (pos_prev + basis_prev.xform(ref1))) / dt - lin_vel) * basis
+    # var orb1 := ((pos + basis * (ref1) - (pos_prev +
+    # basis_prev.xform(ref1))) / dt - lin_vel) * basis
+    var orb1 = ((pos + basis * (ref1) - (pos_prev + basis_prev.xform(ref1))) / dt - lin_vel) * basis
     var omegax := (ref1.cross(orb1) / ref1.length_squared()).cross(ref1)
-    var ref2 := Vector3(0, 1, 0)
-    var orb2 := ((pos + basis * (ref2) - (pos_prev + basis_prev.xform(ref2))) / dt - lin_vel) * basis
+    var ref2 = Vector3(0, 1, 0)
+    var orb2 = ((pos + basis * (ref2) - (pos_prev + basis_prev.xform(ref2))) / dt - lin_vel) * basis
     var omegay := (ref2.cross(orb2) / ref2.length_squared()).cross(ref2)
     var ref3 := Vector3(0, 0, 1)
-    var orb3 := ((pos + basis * (ref3) - (pos_prev + basis_prev.xform(ref3))) / dt - lin_vel) * basis
+    var orb3 = ((pos + basis * (ref3) - (pos_prev + basis_prev.xform(ref3))) / dt - lin_vel) * basis
     var omegaz := (ref3.cross(orb3) / ref3.length_squared()).cross(ref3)
     ang_vel = Vector3(omegay.z, omegaz.x, omegax.y)
 
 
 func init_telemetry() -> void:
-    var _discard = telemetry_file.open("user://telemetry.csv", File.WRITE)
+    var _discard = telemetry_file.open("user://telemetry.csv", FileAccess.WRITE)
     telemetry_file.store_csv_line(["t",
                                    "input.power",
                                    "input.yaw",
@@ -317,7 +321,7 @@ func write_telemetry() -> void:
     if !telemetry_file.file_exists("user://telemetry.csv"):
         init_telemetry()
 
-    var _discard = telemetry_file.open("user://telemetry.csv", File.READ_WRITE)
+    var _discard = telemetry_file.open("user://telemetry.csv", FileAccess.READ_WRITE)
     telemetry_file.seek_end()
     var delta_pos := (get_tracking_target() - pos).rotated(Vector3.UP, -angles.y)
     var data := PackedStringArray([time, input[0], input[1], input[2], input[3],
@@ -526,7 +530,7 @@ func update_command() -> Array:
 
     elif flight_mode == FlightMode.SPEED:
         var bank_limit := deg_to_rad(35)
-        var flat_vel := (lin_vel) * basis_flat
+        var flat_vel = (lin_vel) * basis_flat
         pid_controllers[Controller.VERTICAL_SPEED].set_target(
             (pwr - 0.5) * 10.0)
         motor_control[0] = pid_controllers[Controller.VERTICAL_SPEED].get_output(
@@ -592,16 +596,24 @@ func update_command() -> Array:
 
         var bank_limit := deg_to_rad(35)
         if lin_vel.length() > 2.8 or target_vel.length() > 2.8 or delta_pos.length() > 3.0:
+            # pid_controllers[Controller.LATERAL_SPEED].set_target((target_vel) * basis.x + 2 * delta_pos.x)
+            var lateral_speed_target = (target_vel * basis.x) + Vector3(2 * delta_pos.x, 0, 0)
             pid_controllers[Controller.LATERAL_SPEED].set_target(
-                (target_vel) * basis.x + 2 * delta_pos.x)
+                lateral_speed_target)
+# var lateral_speed_target = (target_vel * basis.x) + Vector3(2 * delta_pos.x, 0, 0)
+# pid_controllers[Controller.LATERAL_SPEED].set_target(lateral_speed_target)
+
             var roll_change: float = pid_controllers[Controller.LATERAL_SPEED].get_output(local_vel.x, dt, false)
             pid_controllers[Controller.ROLL].set_target(
                 clamp(roll_change, -bank_limit, bank_limit))
             motor_control[2] = pid_controllers[Controller.ROLL].get_output(
                 -angles.z, dt, false)
 
+            # pid_controllers[Controller.FORWARD_SPEED].set_target( (target_vel) * basis.z + 2 * delta_pos.z)
+            var forward_speed_target = (target_vel * basis.z) + Vector3(0, 0, 2 * delta_pos.z)
             pid_controllers[Controller.FORWARD_SPEED].set_target(
-                (target_vel) * basis.z + 2 * delta_pos.z)
+                forward_speed_target)
+
             var pitch_change: float = pid_controllers[Controller.FORWARD_SPEED].get_output(local_vel.z, dt, false)
             pid_controllers[Controller.PITCH].set_target(
                 clamp(pitch_change, -bank_limit, bank_limit))

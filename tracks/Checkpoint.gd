@@ -122,8 +122,8 @@ func _on_exited(body: Node) -> void:
         var i := bodies.bsearch(body)
         areas_per_body[i] = areas_per_body[i] - 1
         if areas_per_body[i] == 0:
-            areas_per_body.remove(i)
-            bodies.remove(i)
+            areas_per_body.remove_at(i)
+            bodies.remove_at(i)
 
             var dot_product := get_velocity_check(body)
             if active and (!backward and dot_product > 0.0 or backward and dot_product < 0.0):
