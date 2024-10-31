@@ -26,7 +26,7 @@ var torque := 0.0:
 var rpm := 0.0:
     set(x):
         rpm = clampf(x, -MAX_RPM, MAX_RPM)
-        propeller.rpm = rpm
+        # propeller.rpm = rpm
 var rpm_target := 0.0
 var max_rpm_change := 0.0
 var powered := false
@@ -71,10 +71,10 @@ func _process(delta: float) -> void:
     if clockwise:
         rot = -rot
     rotor.rotate_object_local(Vector3.UP, rot * delta)
-    propeller.rotate_object_local(Vector3.UP, rot * delta)
+    # propeller.rotate_object_local(Vector3.UP, rot * delta)
 
     rotor.transform = rotor.transform.orthonormalized()
-    propeller.transform = propeller.transform.orthonormalized()
+    # propeller.transform = propeller.transform.orthonormalized()
 
 
 func _physics_process(_delta: float) -> void:
@@ -227,7 +227,7 @@ func get_rpm_ratio_range(start: float=0.0, end: float=1.0) -> Array:
 
 
 func get_pitch_range(
-    start1: float=1.0, end1: float=1.0,
-    start2: float=1.0, end2: float=1.0
+        start1: float=1.0, end1: float=1.0,
+        start2: float=1.0, end2: float=1.0
 ) -> Array:
     return [start1, end1, start2, end2]

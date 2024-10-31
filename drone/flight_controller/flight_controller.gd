@@ -87,11 +87,11 @@ func _physics_process(_delta: float) -> void:
     elif flight_mode is FlightModeLaunch and (angles.x < deg_to_rad(-80) or angles.x > deg_to_rad(10)):
         _on_disarm_input()
 
-    if flight_mode == FlightModeTrack:
-        if debug_geometry_enabled:
-            DebugGeometry.draw_debug_cube(
-                0.02, get_tracking_target(), Vector3(
-                    0.2, 0.2, 0.2))
+    # if flight_mode == FlightModeTrack:
+        # if debug_geometry_enabled:
+        # DebugGeometry.draw_debug_cube(
+        # 	0.02, get_tracking_target(), Vector3(
+        # 		0.2, 0.2, 0.2))
 
     if telemetry_enabled:
         write_telemetry()
@@ -472,9 +472,9 @@ func _on_cycle_flight_modes() -> void:
         return
     flight_mode_idx += 1
     while (
-        flight_mode_idx == FlightMode.Type.RECOVER
-        or flight_mode_idx == FlightMode.Type.TURTLE
-        or flight_mode_idx == FlightMode.Type.LAUNCH
+            flight_mode_idx == FlightMode.Type.RECOVER
+            or flight_mode_idx == FlightMode.Type.TURTLE
+            or flight_mode_idx == FlightMode.Type.LAUNCH
     ):
         flight_mode_idx += 1
     if flight_mode_idx >= flight_modes.size():

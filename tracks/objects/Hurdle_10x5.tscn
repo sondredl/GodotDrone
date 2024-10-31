@@ -1,15 +1,15 @@
 [gd_scene load_steps=6 format=4 uid="uid://cybt1infe67j4"]
 
-[ext_resource type="Texture2D" uid="uid://d3k13umi4lcsm" path="res://tracks/objects/StandardGates_Hurdle_GodotGP.png" id="1_0pd77"]
+[ext_resource type="Texture2D" uid="uid://d3k13umi4lcsm" path="res://tracks/objects/StandardGates_Hurdle_GodotGP.png" id="1_h1jqu"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0fhw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6e1q8"]
 resource_name = "Hurdle"
 cull_mode = 2
-albedo_texture = ExtResource("1_0pd77")
+albedo_texture = ExtResource("1_h1jqu")
 roughness = 0.4
 emission_enabled = true
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_jq602"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_gvg1o"]
 _surfaces = [{
 "aabb": AABB(-1.5, 0, -0.0250004, 3, 1.5, 0.05),
 "format": 34359742465,
@@ -23,7 +23,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_2b6qu"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_hscj3"]
 resource_name = "StandardGates_Cube_012"
 _surfaces = [{
 "aabb": AABB(-1.5, 0, -0.0250004, 3, 1.5, 0.05),
@@ -31,7 +31,7 @@ _surfaces = [{
 "format": 34359742487,
 "index_count": 36,
 "index_data": PackedByteArray("AAACAAEAAAADAAIABAAGAAUABAAHAAYACAAKAAkACAALAAoADAAOAA0ADAAPAA4AEAASABEAEAATABIAFAAWABUAFAAXABYA"),
-"material": SubResource("StandardMaterial3D_s0fhw"),
+"material": SubResource("StandardMaterial3D_6e1q8"),
 "name": "Hurdle",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -39,18 +39,18 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AADAvwAAAAAAzMw8AADAvwAAAACgzcy8//+/PwAAAACgzcy8//+/PwAAAAAAzMw8//+/PwAAwD8AzMw8//+/PwAAwD+gzcy8AADAvwAAwD+gzcy8AADAvwAAwD8AzMw8AADAvwAAwD8AzMw8AADAvwAAAAAAzMw8//+/PwAAAAAAzMw8//+/PwAAwD8AzMw8AADAvwAAwD+gzcy8AADAvwAAAACgzcy8AADAvwAAAAAAzMw8AADAvwAAwD8AzMw8//+/PwAAwD+gzcy8//+/PwAAAACgzcy8AADAvwAAAACgzcy8AADAvwAAwD+gzcy8//+/PwAAwD8AzMw8//+/PwAAAAAAzMw8//+/PwAAAACgzcy8//+/PwAAwD+gzcy8/38AAP///7//fwAA////v/9/AAD///+//38AAP///7//f///////v/9///////+//3///////7//f///////v/9//3////+//3//f////7//f/9/////v/9//3////+/AAD/f////78AAP9/////vwAA/3////+/AAD/f////7//////AAD/v/////8AAP+//////wAA/7//////AAD/v////3////+/////f////7////9/////v////3////+/")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_jq602")
+shadow_mesh = SubResource("ArrayMesh_gvg1o")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_3jsur"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_45oa2"]
 size = Vector3(1.5, 0.75, 0.025)
 
 [node name="Hurdle_10x5" type="StaticBody3D"]
 
 [node name="Hurdle_10x5_Mesh" type="MeshInstance3D" parent="."]
 gi_mode = 0
-mesh = SubResource("ArrayMesh_2b6qu")
+mesh = SubResource("ArrayMesh_hscj3")
 skeleton = NodePath("")
 
 [node name="Hurdle_10x5-col" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-shape = SubResource("BoxShape3D_3jsur")
+shape = SubResource("BoxShape3D_45oa2")
