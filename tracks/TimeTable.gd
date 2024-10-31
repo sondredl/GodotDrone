@@ -11,12 +11,12 @@ var laps := 0
 
 func _ready() -> void:
     vbox = VBoxContainer.new()
-    vbox.set("theme_override_constants/separation", 80)
+    vbox.set("custom_constants/separation", 80)
     add_child(vbox)
     grid = GridContainer.new()
     grid.columns = 2
-    grid.set("theme_override_constants/h_separation", 40)
-    grid.set("theme_override_constants/v_separation", 10)
+    grid.set("custom_constants/h_separation", 40)
+    grid.set("custom_constants/v_separation", 10)
     grid.size_flags_horizontal = grid.SIZE_EXPAND
     grid.size_flags_horizontal = grid.SIZE_SHRINK_CENTER
     grid.size_flags_vertical = grid.SIZE_EXPAND
@@ -25,36 +25,32 @@ func _ready() -> void:
     var button := Button.new()
     button.text = "Dismiss"
     vbox.add_child(button)
-    var _discard = button.connect("pressed", Callable(self, "_on_button_pressed"))
+    var _discard = button.pressed.connect(_on_button_pressed)
 
-    label_theme = load("res://GUI/ThemeCountdown.tres")
+    label_theme = preload("res://GUI/timer_theme.tres")
     add_labels("Lap", "Time")
 
     modulate = Color(1, 1, 1, 0.8)
     self_modulate = Color(1, 1, 1, 0.6)
 
-    _discard = Global.connect(
-        "game_mode_changed", Callable(
-            self, "_on_game_mode_changed"))
+    _discard = Global.game_mode_changed.connect(_on_game_mode_changed)
     Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func add_lap(time: LapTimer) -> void:
     laps += 1
-    add_labels(str(laps), time.get_time_string())
+    add_labels("%d" % [laps], time.get_time_string())
 
 
 func add_labels(lap: String, time: String) -> void:
     var label := Label.new()
     label.text = lap
     label.theme = label_theme
-    # label.align = Label.ALIGNMENT_CENTER
     label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     grid.add_child(label)
     label = Label.new()
     label.text = time
     label.theme = label_theme
-    # label.align = Label.ALIGNMENT_CENTER
     label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     grid.add_child(label)
 
@@ -72,7 +68,7 @@ func _on_button_pressed() -> void:
     delete()
 
 
-func _on_game_mode_changed(mode) -> void:
+func _on_game_mode_changed(mode: Global.GameMode) -> void:
     if mode != Global.GameMode.RACE:
         delete()
 

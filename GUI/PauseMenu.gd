@@ -1,67 +1,78 @@
+class_name PauseMenu
 extends Control
 
-
-var packed_quad_settings_menu := preload("res://GUI/QuadSettingsMenu.tscn")
-var packed_help_page := preload("res://GUI/HelpPage.tscn")
-var packed_options_menu := preload("res://GUI/OptionsMenu.tscn")
-
-var can_resume := true
-var show_menu := true
 
 signal resumed
 signal menu
 
+var packed_quad_settings_menu := preload("res://GUI/QuadSettingsMenu.tscn")
+var packed_help_page := preload("res://GUI/HelpPage.tscn")
+var packed_options_menu := preload("res://GUI/options_menu/OptionsMenu.tscn")
 
+var can_resume := true
+
+
+@onready var button_resume := %ButtonResume as Button
+@onready var button_quad := %ButtonQuad as Button
+@onready var button_help := %ButtonHelp as Button
+@onready var button_options := %ButtonOptions as Button
+@onready var button_main_menu := %ButtonMainMenu as Button
 func _ready() -> void:
-    var _discard = $PanelContainer / VBoxContainer / ButtonResume.connect("pressed", Callable(self, "_on_resume_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonQuad.connect("pressed", Callable(self, "_on_quad_settings_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonHelp.connect("pressed", Callable(self, "_on_help_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonOptions.connect("pressed", Callable(self, "_on_options_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonMainMenu.connect("pressed", Callable(self, "_on_menu_pressed"))
+    var _discard = button_resume.pressed.connect(_on_resume_pressed)
+    _discard = button_quad.pressed.connect(_on_quad_settings_pressed)
+    _discard = button_help.pressed.connect(_on_help_pressed)
+    _discard = button_options.pressed.connect(_on_options_pressed)
+    _discard = button_main_menu.pressed.connect(_on_menu_pressed)
 
 
 func _input(event: InputEvent) -> void:
-    if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F2:
+    if event.is_action(
+            "pause_menu") and event.is_pressed() and not event.is_echo():
+        if get_tree().paused:
+            unpause_game()
+    elif event is InputEventKey and event.is_pressed() and event.keycode == KEY_F2:
         if get_tree().paused:
             toggle_menu_visibility()
 
 
-func set_menu_visibility(show: bool) -> void:
-    show_menu = show
+func set_menu_visibility(show_menu: bool) -> void:
     visible = show_menu
-    if show_menu:
+    if visible:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
     else:
         Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func toggle_menu_visibility() -> void:
-    set_menu_visibility(not show_menu)
+    set_menu_visibility(not visible)
 
 
 func _on_resume_pressed() -> void:
-    set_menu_visibility(true)
-    emit_signal("resumed")
+    unpause_game()
 
 
 func _on_quad_settings_pressed() -> void:
     if packed_quad_settings_menu.can_instantiate():
         var quad_settings_menu := packed_quad_settings_menu.instantiate()
         get_parent().add_child(quad_settings_menu)
+        can_resume = false
         visible = false
         await quad_settings_menu.back
         quad_settings_menu.queue_free()
         visible = true
+        can_resume = true
 
 
 func _on_help_pressed() -> void:
     if packed_help_page.can_instantiate():
         var help_page := packed_help_page.instantiate()
         get_parent().add_child(help_page)
+        can_resume = false
         visible = false
         await help_page.back
         help_page.queue_free()
         visible = true
+        can_resume = true
 
 
 func _on_options_pressed() -> void:
@@ -77,20 +88,20 @@ func _on_options_pressed() -> void:
 
 
 func _on_menu_pressed() -> void:
-    var confirm_dialog: Control = load("res://GUI/ConfirmationPopup.tscn").instantiate()
     can_resume = false
+    var confirm_dialog := ConfirmationDialog.new()
     add_child(confirm_dialog)
-    confirm_dialog.set_text("Return to Main Menu?")
-    confirm_dialog.set_yes_button("Confirm")
-    confirm_dialog.set_no_button("Cancel")
-    confirm_dialog.remove_alt_button()
-    confirm_dialog.show_modal(true)
-    var dialog: int = await confirm_dialog.validated
-    if dialog == 0:
-        can_resume = true
-        emit_signal("resumed")
-        emit_signal("menu")
-        return
-    else:
-        confirm_dialog.queue_free()
-    can_resume = true
+    confirm_dialog.dialog_text = "Return to Main Menu?"
+    confirm_dialog.ok_button_text = "Confirm"
+    confirm_dialog.cancel_button_text = "Cancel"
+    var _discard = confirm_dialog.confirmed.connect(func():
+                                                    can_resume=true
+                                                    resumed.emit()
+                                                    menu.emit())
+    _discard = confirm_dialog.canceled.connect(func(): can_resume=true)
+    confirm_dialog.popup_centered()
+
+
+func unpause_game() -> void:
+    set_menu_visibility(false)
+    resumed.emit()

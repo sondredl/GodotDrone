@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b1epx1o1yeodw"
+uid="uid://bgtdc8niopper"
 path="res://.godot/imported/Motor1.glb-78b60db4689e4883a0d0db1ab7db0c0e.scn"
 
 [deps]
@@ -30,7 +30,7 @@ animation/fps=15
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
-import_script/path=""
+import_script/path="res://ImportDroneParts.gd"
 _subresources={}
 gltf/naming_version=0
 gltf/embedded_image_handling=1

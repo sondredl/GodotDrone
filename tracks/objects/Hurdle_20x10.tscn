@@ -1,31 +1,56 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=4 uid="uid://bgqfmmf7ww2ov"]
 
-[ext_resource path="res://Assets/Tracks/Objects/Hurdle.material" type="Material" id=1]
+[ext_resource type="Texture2D" uid="uid://d3k13umi4lcsm" path="res://tracks/objects/StandardGates_Hurdle_GodotGP.png" id="1_8pm6o"]
 
-[sub_resource type="ArrayMesh" id=1]
-resource_name = "Hurdle_20x10"
-surfaces/0 = {
-"aabb": AABB( -3, 0, -0.0250004, 6, 3, 0.05001 ),
-"array_data": PackedByteArray( 0, 0, 64, 192, 0, 0, 0, 0, 0, 204, 204, 60, 0, 129, 0, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 64, 0, 0, 0, 0, 160, 205, 204, 188, 0, 129, 0, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 192, 0, 0, 0, 0, 160, 205, 204, 188, 0, 129, 0, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 192, 0, 0, 0, 0, 0, 204, 204, 60, 0, 129, 0, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 64, 0, 0, 0, 0, 0, 204, 204, 60, 0, 129, 0, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 64, 0, 0, 0, 0, 160, 205, 204, 188, 0, 129, 0, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 64, 0, 0, 64, 64, 0, 204, 204, 60, 0, 127, 0, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 192, 0, 0, 64, 64, 160, 205, 204, 188, 0, 127, 0, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 64, 0, 0, 64, 64, 160, 205, 204, 188, 0, 127, 0, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 64, 0, 0, 64, 64, 0, 204, 204, 60, 0, 127, 0, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 192, 0, 0, 64, 64, 0, 204, 204, 60, 0, 127, 0, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 64, 64, 160, 205, 204, 188, 0, 127, 0, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 64, 64, 0, 204, 204, 60, 0, 0, 127, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 64, 0, 0, 0, 0, 0, 204, 204, 60, 0, 0, 127, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 192, 0, 0, 0, 0, 0, 204, 204, 60, 0, 0, 127, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 192, 0, 0, 64, 64, 0, 204, 204, 60, 0, 0, 127, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 64, 0, 0, 64, 64, 0, 204, 204, 60, 0, 0, 127, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 64, 0, 0, 0, 0, 0, 204, 204, 60, 0, 0, 127, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 192, 0, 0, 64, 64, 160, 205, 204, 188, 129, 0, 0, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 0, 0, 0, 204, 204, 60, 129, 0, 0, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 192, 0, 0, 0, 0, 160, 205, 204, 188, 129, 0, 0, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 192, 0, 0, 64, 64, 160, 205, 204, 188, 129, 0, 0, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 64, 64, 0, 204, 204, 60, 129, 0, 0, 0, 127, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 0, 0, 0, 204, 204, 60, 129, 0, 0, 0, 127, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 64, 0, 0, 64, 64, 160, 205, 204, 188, 0, 0, 129, 0, 129, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 0, 0, 160, 205, 204, 188, 0, 0, 129, 0, 129, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 64, 0, 0, 0, 0, 160, 205, 204, 188, 0, 0, 129, 0, 129, 0, 0, 127, 153, 44, 182, 57, 0, 0, 64, 64, 0, 0, 64, 64, 160, 205, 204, 188, 0, 0, 129, 0, 129, 0, 0, 127, 153, 44, 147, 52, 0, 0, 64, 192, 0, 0, 64, 64, 160, 205, 204, 188, 0, 0, 129, 0, 129, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 192, 0, 0, 0, 0, 160, 205, 204, 188, 0, 0, 129, 0, 129, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 64, 0, 0, 64, 64, 0, 204, 204, 60, 127, 0, 0, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 64, 0, 0, 0, 0, 160, 205, 204, 188, 127, 0, 0, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 64, 0, 0, 0, 0, 0, 204, 204, 60, 127, 0, 0, 0, 127, 0, 0, 127, 108, 59, 182, 57, 0, 0, 64, 64, 0, 0, 64, 64, 0, 204, 204, 60, 127, 0, 0, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 64, 0, 0, 64, 64, 160, 205, 204, 188, 127, 0, 0, 0, 127, 0, 0, 127, 108, 59, 147, 52, 0, 0, 64, 64, 0, 0, 0, 0, 160, 205, 204, 188, 127, 0, 0, 0, 127, 0, 0, 127, 108, 59, 182, 57 ),
-"array_index_data": PackedByteArray(  ),
-"blend_shape_data": [  ],
-"format": 97303,
-"index_count": 0,
-"material": ExtResource( 1 ),
-"primitive": 4,
-"skeleton_aabb": [  ],
-"vertex_count": 36
-}
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0fhw"]
+resource_name = "Hurdle"
+cull_mode = 2
+albedo_texture = ExtResource("1_8pm6o")
+roughness = 0.4
+emission_enabled = true
 
-[sub_resource type="BoxShape3D" id=2]
-extents = Vector3( 3, 1.5, 0.025 )
+[sub_resource type="ArrayMesh" id="ArrayMesh_eshlt"]
+_surfaces = [{
+"aabb": AABB(-3, 0, -0.0250004, 6, 3, 0.05),
+"format": 34359742465,
+"index_count": 36,
+"index_data": PackedByteArray("AAACAAEAAAADAAIABAAGAAUABAAHAAYABwADAAAABwAEAAMABgAAAAEABgAHAAAABQABAAIABQAGAAEABAACAAMABAAFAAIA"),
+"name": "Hurdle",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AABAwAAAAAAAzMw8AABAwAAAAACgzcy8AABAQAAAAACgzcy8AABAQAAAAAAAzMw8AABAQAAAQEAAzMw8AABAQAAAQECgzcy8AABAwAAAQECgzcy8AABAwAAAQEAAzMw8")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tiuv4"]
+resource_name = "StandardGates_Cube_013"
+_surfaces = [{
+"aabb": AABB(-3, 0, -0.0250004, 6, 3, 0.05),
+"attribute_data": PackedByteArray("OC6TPR3NNj84LpM9Hc02PzqabT8dzTY/OpptPx3NNj86mm0/xmWSPjqabT/GZZI+OC6TPcZlkj44LpM9xmWSPjgukz3GZZI+OC6TPR3NNj86mm0/Hc02PzqabT/GZZI+OC6TPcZlkj44LpM9Hc02Pzgukz0dzTY/OC6TPcZlkj44LpM9xmWSPjgukz0czTY/OpptPxzNNj86mm0/xmWSPjqabT/GZZI+OpptPx3NNj86mm0/Hc02PzqabT/GZZI+"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAACAAEAAAADAAIABAAGAAUABAAHAAYACAAKAAkACAALAAoADAAOAA0ADAAPAA4AEAASABEAEAATABIAFAAWABUAFAAXABYA"),
+"material": SubResource("StandardMaterial3D_s0fhw"),
+"name": "Hurdle",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AABAwAAAAAAAzMw8AABAwAAAAACgzcy8AABAQAAAAACgzcy8AABAQAAAAAAAzMw8AABAQAAAQEAAzMw8AABAQAAAQECgzcy8AABAwAAAQECgzcy8AABAwAAAQEAAzMw8AABAwAAAQEAAzMw8AABAwAAAAAAAzMw8AABAQAAAAAAAzMw8AABAQAAAQEAAzMw8AABAwAAAQECgzcy8AABAwAAAAACgzcy8AABAwAAAAAAAzMw8AABAwAAAQEAAzMw8AABAQAAAQECgzcy8AABAQAAAAACgzcy8AABAwAAAAACgzcy8AABAwAAAQECgzcy8AABAQAAAQEAAzMw8AABAQAAAAAAAzMw8AABAQAAAAACgzcy8AABAQAAAQECgzcy8/38AAP///7//fwAA////v/9/AAD///+//38AAP///7//f///////v/9///////+//3///////7//f///////v/9//3////+//3//f////7//f/9/////v/9//3////+/AAD/f////78AAP9/////vwAA/3////+/AAD/f////7//////AAD/v/////8AAP+//////wAA/7//////AAD/v////3////+/////f////7////9/////v////3////+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_eshlt")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hj6tf"]
+size = Vector3(3, 1.5, 0.025)
 
 [node name="Hurdle_20x10" type="StaticBody3D"]
 
 [node name="Hurdle_20x10_Mesh" type="MeshInstance3D" parent="."]
-mesh = SubResource( 1 )
-material/0 = null
+gi_mode = 0
+mesh = SubResource("ArrayMesh_tiuv4")
+skeleton = NodePath("")
 
 [node name="Hurdle_20x10-col" type="CollisionShape3D" parent="."]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 2 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_hj6tf")

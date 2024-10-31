@@ -9,9 +9,9 @@ const CELL_VOLTAGE_DAMAGED := 3.3
 const DAMAGE_HEALTH_DROP_SPEED := 0.05
 
 
-@export var cells := 4  # (int, 1, 6)
-@export var capacity := 1300  # (int, 100, 10000)
-@export var c_rating := 100  # (int, 1, 200)
+@export_range(1, 6) var cells := 4
+@export_range(100, 10000) var capacity := 1300
+@export_range(1, 200) var c_rating := 100
 @export var infinite := false
 var voltage := 0.0
 var current := 0.0

@@ -8,43 +8,32 @@ signal arm_input
 signal disarm_input
 
 
-# @export var target_path: NodePath = null
-var target = null
+@export var target_path: NodePath = ^""
+var target: Drone = null
 
-var input := [0.0, 0.0, 0.0, 0.0]
+var input := FlightCommand.new()
 
-var axis_bindings := []
+var axis_bindings: Array[ControllerAction] = []
 
 
 func _ready() -> void:
-    # target = get_node(target_path)
+    target = get_node(target_path)
 
     var action_list := Controls.action_list
     for controller_action in action_list:
         if controller_action.type == ControllerAction.Type.AXIS:
             axis_bindings.append(controller_action)
 
-    var _discard = connect("reset_requested", Callable(target, "_on_reset"))
-    _discard = connect(
-        "mode_changed",
-        Callable(
-            target.flight_controller,
-            "_on_cycle_flight_modes"))
-    _discard = connect(
-        "arm_input",
-        Callable(
-            target.flight_controller,
-            "_on_arm_input"))
-    _discard = connect(
-        "disarm_input",
-        Callable(
-            target.flight_controller,
-            "_on_disarm_input"))
+    var _discard = reset_requested.connect(target._on_reset)
+    _discard = mode_changed.connect(
+        target.flight_controller._on_cycle_flight_modes)
+    _discard = arm_input.connect(target.flight_controller._on_arm_input)
+    _discard = disarm_input.connect(target.flight_controller._on_disarm_input)
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventJoypadMotion:
-        var controller_action = null
+        var controller_action: ControllerAction = null
         for i in range(axis_bindings.size()):
             if event.axis == axis_bindings[i].axis:
                 controller_action = axis_bindings[i]
@@ -59,19 +48,19 @@ func _input(event: InputEvent) -> void:
                     Input.parse_input_event(
                         simulate_action_event(action, false))
     elif Input.is_action_just_pressed("respawn"):
-        emit_signal("reset_requested")
+        reset_requested.emit()
     elif event.is_action_pressed("cycle_flight_modes"):
-        emit_signal("mode_changed")
+        mode_changed.emit()
     elif event.is_action_pressed("toggle_arm"):
         if target.flight_controller.state_armed == false:
-            emit_signal("arm_input")
+            arm_input.emit()
         else:
-            emit_signal("disarm_input")
+            disarm_input.emit()
     elif event.is_action("arm"):
         if Input.is_action_just_pressed("arm"):
-            emit_signal("arm_input")
+            arm_input.emit()
         elif Input.is_action_just_released("arm"):
-            emit_signal("disarm_input")
+            disarm_input.emit()
     # TODO: Add other actions
 # elif event.is_action("mode_angle"):
 # if event.is_action_pressed("mode_angle"):
@@ -89,15 +78,18 @@ func _physics_process(_delta: float) -> void:
 
 
 func read_input() -> void:
-    var power = (Input.get_action_strength("throttle_up") - Input.get_action_strength("throttle_down") + 1) / 2
-    var pitch = Input.get_action_strength("pitch_up") - Input.get_action_strength("pitch_down")
-    var roll = Input.get_action_strength("roll_right") - Input.get_action_strength("roll_left")
-    var yaw = Input.get_action_strength("yaw_right") - Input.get_action_strength("yaw_left")
-    input = [power, yaw, roll, pitch]
+    var power := (Input.get_axis("throttle_down", "throttle_up") + 1) / 2
+    var pitch := Input.get_axis("pitch_down", "pitch_up")
+    var roll := Input.get_axis("roll_left", "roll_right")
+    var yaw := Input.get_axis("yaw_left", "yaw_right")
+    input.power = power
+    input.yaw = yaw
+    input.roll = roll
+    input.pitch = pitch
 
 
 func simulate_action_event(action_name: String, action_pressed: bool) -> InputEventAction:
-    var event = InputEventAction.new()
+    var event := InputEventAction.new()
     event.action = action_name
-    event.button_pressed = action_pressed
+    event.pressed = action_pressed
     return event

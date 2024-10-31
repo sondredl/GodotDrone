@@ -11,19 +11,13 @@ A controller or radio transmitter is necessary to play! Or anything that your co
 
 You can consult the Help screen in game for some drone basics and keyboard shortcuts. Do not forget to bind a button or axis to either Arm or Toggle Arm, or you won't be able to fly!
 
-
 ## Graphics
 The FPV camera has an optional fisheye mode, which feels more realistic than the standard game camera, but is also more expensive on your GPU. A cheaper version is available at the cost of visual quality.
 
 You will notice the only level is rather bland, I hope to change that at some point.
 
 ## Godot 4
-I started this project on Godot 3 a few years back. Now that Godot 4 is around the corner (beta 1 at the time of this writing), I am converting the project and will only continue working on Godot 4.x. This will happen on the godot4 branch until a stable version is out. There are some unresolved issues, though:
-* The fisheye camera does currenty does not work, as viewports have some unresolved issues
-* Control bindings are broken
-* Some HUD elements are broken
-* Audio cuts a few seconds after arming the drone
-* Probably more issues
+I started this project on Godot 3 a few years back. Now that Godot 4 is out and I have ported the game to it, I am in the process of refactoring my admittedly poor code. I definitely wouldn't call this version "stable" by any mean, but it is now more or less on par with the Godot 3 version.
 
 ## Development
-I started this project as a hobby, and am not currently looking for pull requests - but do feel free to open issues and leave feedback. Also, the codebase is probably horrible and I am planning to refactor most of it while porting the project to Godot 4.
+I started this project as a hobby, and am not currently looking for pull requests - but do feel free to open issues and leave feedback. Also, the codebase is probably horrible and I am in the process of refactoring most of it after porting the project to Godot 4.

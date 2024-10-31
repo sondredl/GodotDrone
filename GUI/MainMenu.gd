@@ -2,19 +2,21 @@ extends Control
 
 
 var packed_quad_settings_menu := preload("res://GUI/QuadSettingsMenu.tscn")
-var packed_options_menu := preload("res://GUI/OptionsMenu.tscn")
+var packed_options_menu := preload("res://GUI/options_menu/OptionsMenu.tscn")
 var packed_help_page := preload("res://GUI/HelpPage.tscn")
-var packed_popup := preload("res://GUI/ConfirmationPopup.tscn")
-
-var level := preload("res://sceneries/Level1.tscn")
 
 
+@onready var button_fly := %ButtonFly as Button
+@onready var button_quad := %ButtonQuad as Button
+@onready var button_help := %ButtonHelp as Button
+@onready var button_options := %ButtonOptions as Button
+@onready var button_quit := %ButtonQuit as Button
 func _ready() -> void:
-    var _discard = $PanelContainer / VBoxContainer / ButtonFly.connect("pressed", Callable(self, "_on_fly_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonQuad.connect("pressed", Callable(self, "_on_quad_settings_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonHelp.connect("pressed", Callable(self, "_on_help_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonOptions.connect("pressed", Callable(self, "_on_options_pressed"))
-    _discard = $PanelContainer / VBoxContainer / ButtonQuit.connect("pressed", Callable(self, "_on_quit_pressed"))
+    var _discard = button_fly.pressed.connect(_on_fly_pressed)
+    _discard = button_quad.pressed.connect(_on_quad_settings_pressed)
+    _discard = button_help.pressed.connect(_on_help_pressed)
+    _discard = button_options.pressed.connect(_on_options_pressed)
+    _discard = button_quit.pressed.connect(_on_quit_pressed)
 
     Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -32,7 +34,7 @@ func _ready() -> void:
 
 
 func _on_fly_pressed() -> void:
-    var _discard = get_tree().change_scene_to_packed(level)
+    var _discard = get_tree().change_scene_to_file("res://sceneries/Level1.tscn")
 
 
 func _on_quad_settings_pressed() -> void:
@@ -66,11 +68,10 @@ func _on_options_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
-    var confirm_dialog := packed_popup.instantiate()
+    var confirm_dialog := ConfirmationDialog.new()
     add_child(confirm_dialog)
-    confirm_dialog.set_text("Do you really want to quit?")
-    confirm_dialog.set_buttons("Quit", "Cancel")
-    confirm_dialog.show_modal(true)
-    var dialog: int = await confirm_dialog.validated
-    if dialog == 0:
-        get_tree().quit()
+    confirm_dialog.dialog_text = "Do you really want to quit?"
+    confirm_dialog.ok_button_text = "Quit"
+    confirm_dialog.cancel_button_text = "Cancel"
+    var _discard = confirm_dialog.confirmed.connect(func(): get_tree().quit())
+    confirm_dialog.popup_centered()

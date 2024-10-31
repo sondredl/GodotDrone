@@ -7,7 +7,18 @@ var col: CollisionShape3D = null
 var shape: BoxShape3D = null
 
 
-@export var area_extents := Vector3(0.1, 0.05, 0.05): set = set_area_extents
+@export var area_extents := Vector3(0.1, 0.05, 0.05):
+    set(extents):
+        if not is_inside_tree():
+            await self.ready
+        extents.x = absf(extents.x)
+        extents.y = absf(extents.y)
+        extents.z = absf(extents.z)
+        area_extents = extents
+        col = get_collision_shape()
+        update_collision_shape()
+
+
 func _ready() -> void:
     col = get_collision_shape()
     update_collision_shape()
@@ -21,17 +32,6 @@ func get_collision_shape() -> Node:
         add_child(col)
         col.owner = self
     return get_child(0)
-
-
-func set_area_extents(extents: Vector3) -> void:
-    if not is_inside_tree():
-        await self.ready
-    extents.x = abs(extents.x)
-    extents.y = abs(extents.y)
-    extents.z = abs(extents.z)
-    area_extents = extents
-    col = get_collision_shape()
-    update_collision_shape()
 
 
 func update_collision_shape() -> void:

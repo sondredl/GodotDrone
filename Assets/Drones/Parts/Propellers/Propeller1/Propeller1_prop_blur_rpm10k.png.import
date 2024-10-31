@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dituc6e6c6mhe"
+uid="uid://ctx0mbwmfeiuj"
 path.s3tc="res://.godot/imported/Propeller1_prop_blur_rpm10k.png-5ad4966dc70c70ec63d74058be20dc8c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "eb4301cc1a381fbae886a77449bfe36f"
 }
 
 [deps]

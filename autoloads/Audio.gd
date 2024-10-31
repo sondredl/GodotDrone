@@ -1,7 +1,7 @@
 extends Node
 
 
-var audio_settings_path := "%s/Audio.cfg" % Global.config_dir
+var audio_settings_path := "%s/Audio.cfg" % [Global.config_dir]
 
 var audio_settings := {"master_volume": 1.0}
 
@@ -19,11 +19,11 @@ func load_audio_settings() -> String:
         Global.log_error(
             err, "Parse error while loading audio configuration file.")
         text = "Failed to read audio configuration file."
-        text = "%s\nThe default settings will be loaded." % text
+        text = "%s\nThe default settings will be loaded." % [text]
     elif err != ERR_FILE_NOT_FOUND:
         Global.log_error(err, "Could not open audio config file.")
         text = "Could not open audio configuration file."
-        text = "%s\nThe default settings will be loaded." % err
+        text = "%s\nThe default settings will be loaded." % [err]
     return text
 
 

@@ -1,62 +1,46 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://c7ppjtwtec77o"]
 
-[ext_resource path="res://GUI/ThemeMenu.tres" type="Theme" id=1]
-[ext_resource path="res://GUI/HelpPage.gd" type="Script" id=2]
+[ext_resource type="Theme" uid="uid://cg8ia5t16ecpj" path="res://GUI/menu_theme.tres" id="1_3nmxe"]
+[ext_resource type="Script" path="res://GUI/HelpPage.gd" id="2"]
+[ext_resource type="Theme" uid="uid://24uqagsx1gy3" path="res://GUI/help_page_theme.tres" id="3_nwjex"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_grm5d"]
+font_size = 48
 
 [node name="HelpPage" type="MarginContainer"]
+process_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_bottom = 100
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-offset_left = 100.0
-offset_top = 100.0
-offset_right = 1820.0
-offset_bottom = 980.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_3nmxe")
+script = ExtResource("2")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 1700.0
-offset_bottom = 860.0
-theme_override_constants/separation = 75
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
-offset_right = 1680.0
-offset_bottom = 45.0
+layout_mode = 2
 text = "Help"
-align = 1
-valign = 1
+label_settings = SubResource("LabelSettings_grm5d")
+horizontal_alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
-offset_top = 120.0
-offset_right = 1680.0
-offset_bottom = 714.0
+[node name="HelpLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
-theme = ExtResource( 1 )
+theme = ExtResource("3_nwjex")
 
 [node name="ButtonBack" type="Button" parent="PanelContainer/VBoxContainer"]
-offset_left = 1545.0
-offset_top = 789.0
-offset_right = 1680.0
-offset_bottom = 840.0
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme = ExtResource( 1 )
 text = "Go Back"

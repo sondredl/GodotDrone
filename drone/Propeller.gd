@@ -1,37 +1,75 @@
 @tool
-extends Node3D
 class_name Propeller
+extends Node3D
 
 
 @onready var cw := $CW
 @onready var ccw := $CCW
 @onready var prop_disk := $PropBlurDisk
-@onready var ray := $RayCast3D
+@onready var ray := $RayCast3D as RayCast3D
 var max_ray_length := 0.0
 
 
-@export var diameter := 5.0  # (float, 0.5, 15)
-@export var pitch := 5.0  # (float, 0.5, 15)
-@export var num_blades := 2  # (int, 2, 6)
-@export var c_tip := 0.01  # (float, 0.0, 0.1)
-@export var cl0 := 0.1  # (float, 0.0, 10.0)
-@export var cla := 0.1  # (float, 0.0, 10.0)
-@export var cd0 := 0.1  # (float, 0.0, 10.0)
-@export var cda := 0.1  # (float, 0.0, 10.0)
-@export var cm0 := 0.1  # (float, 0.0, 10.0)
-@export var cma := 0.1  # (float, 0.0, 10.0)
-@export var disk_delta := 0.2  # (float, 0.0, 10.0)
-var clockwise := false: set = set_clockwise
+@export_range(0.5, 15) var diameter := 5.0
+@export_range(0.5, 15) var pitch := 5.0
+@export_range(2, 6) var num_blades := 2
+@export_range(0.0, 0.1) var c_tip := 0.01
+@export_range(0.0, 10.0) var cl0 := 0.1
+@export_range(0.0, 10.0) var cla := 0.1
+@export_range(0.0, 10.0) var cd0 := 0.1
+@export_range(0.0, 10.0) var cda := 0.1
+@export_range(0.0, 10.0) var cm0 := 0.1
+@export_range(0.0, 10.0) var cma := 0.1
+@export_range(0.0, 10.0) var disk_delta := 0.2
+var clockwise := false:
+    set(is_cw):
+        clockwise = is_cw
+        set_visibility(true)
 var rpm := 0.0
 var use_blur := false
 
 
-@export var color := Color(1.0, 1.0, 1.0, 1.0): set = set_color
-@export var prop_disk_alpha := 1.0: set = set_prop_disk_alpha
-@export var prop_disk_emission := 0.0: set = set_prop_disk_emission
-@export var prop_disk_falloff := 10: set = set_prop_disk_falloff
-var velocity := Vector3.ZERO: set = set_velocity
-var forces := [Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO]
+@export var color := Color(1.0, 1.0, 1.0, 1.0):
+    set(col):
+        if !is_inside_tree():
+            await self.ready
+        color = col
+        cw.mesh.surface_get_material(
+            0).set_shader_parameter("propeller_color", color)
+        ccw.mesh.surface_get_material(
+            0).set_shader_parameter("propeller_color", color)
+        prop_disk.mesh.surface_get_material(
+            0).set_shader_parameter("propeller_color", color)
+
+
+@export_range(1, 3) var prop_disk_alpha := 1.0:
+    set(alpha):
+        if !is_inside_tree():
+            await self.ready
+        prop_disk_alpha = alpha
+        prop_disk.mesh.surface_get_material(
+            0).set_shader_parameter("alpha_boost", prop_disk_alpha)
+
+
+@export_range(0, 2) var prop_disk_emission := 0.0:
+    set(emission):
+        if !is_inside_tree():
+            await self.ready
+        prop_disk_emission = emission
+        prop_disk.mesh.surface_get_material(0).set_shader_parameter(
+            "emission_power", prop_disk_emission)
+
+
+@export_range(1, 20) var prop_disk_falloff := 10:
+    set(falloff):
+        if !is_inside_tree():
+            await self.ready
+        prop_disk_falloff = falloff
+        prop_disk.mesh.surface_get_material(0).set_shader_parameter(
+            "emission_falloff", prop_disk_falloff)
+
+var velocity := Vector3.ZERO
+var forces: Array[Vector3] = [Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO]
 
 var radius := diameter * 0.0254 / 2.0
 var theta_tip := 1.25 * pitch / (PI * diameter)
@@ -55,7 +93,8 @@ func _ready() -> void:
 
     var parent: Node3D = get_parent()
     while parent is not Drone:
-        ray.add_exception(parent)
+        if parent is CollisionObject3D:
+            ray.add_exception(parent)
         parent = parent.get_parent()
         if parent is Drone:
             ray.add_exception(parent)
@@ -84,11 +123,6 @@ func _process(_delta: float) -> void:
             set_visibility(true)
 
 
-func set_clockwise(is_cw: bool) -> void:
-    clockwise = is_cw
-    set_visibility(true)
-
-
 func set_visibility(show_prop: bool) -> void:
     if show_prop:
         cw.visible = clockwise
@@ -96,46 +130,6 @@ func set_visibility(show_prop: bool) -> void:
     else:
         cw.visible = false
         ccw.visible = false
-
-
-func set_color(col: Color) -> void:
-    if !is_inside_tree():
-        await self.ready
-    color = col
-    cw.mesh.surface_get_material(
-        0).set_shader_parameter("propeller_color", color)
-    ccw.mesh.surface_get_material(
-        0).set_shader_parameter("propeller_color", color)
-    prop_disk.mesh.surface_get_material(
-        0).set_shader_parameter("propeller_color", color)
-
-
-func set_prop_disk_alpha(alpha: float) -> void:
-    if !is_inside_tree():
-        await self.ready
-    prop_disk_alpha = alpha
-    prop_disk.mesh.surface_get_material(
-        0).set_shader_parameter("alpha_boost", prop_disk_alpha)
-
-
-func set_prop_disk_emission(emission: float) -> void:
-    if !is_inside_tree():
-        await self.ready
-    prop_disk_emission = emission
-    prop_disk.mesh.surface_get_material(0).set_shader_parameter(
-        "emission_power", prop_disk_emission)
-
-
-func set_prop_disk_falloff(falloff: int) -> void:
-    if !is_inside_tree():
-        await self.ready
-    prop_disk_falloff = falloff
-    prop_disk.mesh.surface_get_material(0).set_shader_parameter(
-        "emission_falloff", prop_disk_falloff)
-
-
-func set_velocity(vel: Vector3) -> void:
-    velocity = vel
 
 
 func update_forces() -> void:
@@ -190,7 +184,7 @@ func update_forces() -> void:
     a3 = 3 * cl0 * (disk_delta + 1) * lambda
     a4 = 6 * (cda * (lambda - theta_tip) - cla * lambda ) * (lambda - theta_tip)
     a5 = (3 * mu * mu * (cd0 * disk_delta + cda *
-                         theta_tip * theta_tip)) / disk_delta
+          theta_tip * theta_tip)) / disk_delta
     var cmq := a1 * (a2 + a3 + a4 + a5)
     var torque := 0.5 * rho * PI * radius * radius * w * w * radius * radius * radius * cmq
 
@@ -252,8 +246,11 @@ func get_ground_effect() -> float:
     var ground_effect := 1.0
     var ray_length := max_ray_length
     if ray.is_colliding():
-        # ray_length = min(abs((ray.get_collision_point()) *
-        # 				 global_transform.y), max_ray_length)
+        # ray_length = minf((ray.get_collision_point() - global_transform.origin).length(), max_ray_length)
+        ray_length = minf(
+            absf(
+                (ray.get_collision_point() * global_transform).y),
+            max_ray_length)
         var b_square := gnd_b * gnd_b
         var d_square := gnd_d * gnd_d
         var r_square := gnd_radius * gnd_radius
@@ -266,7 +263,7 @@ func get_ground_effect() -> float:
         var a3 := 0.5 * r_square * ray_length / sqrt(b3 * b3 * b3)
         var b4 := b_square + 4 * z_square
         var a4 := 2 * r_square * ray_length / sqrt(b4 * b4 * b4) * gnd_kb
-        ground_effect = clamp(1.0 / (1 - a1 - a2 - a3 - a4), 1, 2)
+        ground_effect = clampf(1.0 / (1 - a1 - a2 - a3 - a4), 1, 2)
         if ground_effect < 1.01 and ray_length < 2 * gnd_radius:
             ground_effect = 2
     return ground_effect

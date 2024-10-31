@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://fncnna0q0htl"
+uid="uid://c2kives20vbh"
 path="res://.godot/imported/Propeller1.glb-425ed54789c482200948ad351e4da295.scn"
 
 [deps]
@@ -30,7 +30,7 @@ animation/fps=15
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
-import_script/path=""
+import_script/path="res://ImportDroneParts.gd"
 _subresources={}
 gltf/naming_version=0
 gltf/embedded_image_handling=1

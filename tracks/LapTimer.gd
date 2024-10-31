@@ -7,33 +7,33 @@ var paused := true
 
 
 func _physics_process(delta: float) -> void:
-	if not paused:
-		time += delta
+    if not paused:
+        time += delta
 
 
-func get_minute_second_decimal(t: float = -1.0) -> Dictionary:
-	if t < 0:
-		t = time
-	var minute := int(t / 60)
-	var second := int(t - minute * 60)
-	var decimal := int(round((t - minute * 60 - second) * 100))
-	var dict := {"minute": minute, "second": second, "decimal": decimal}
-	return dict
+func get_minute_second_decimal(t: float=-1.0) -> Dictionary:
+    if t < 0:
+        t = time
+    var minute := int(t / 60)
+    var second := int(t - minute * 60)
+    var decimal := floori((t - minute * 60 - second) * 100)
+    var dict := {"minute": minute, "second": second, "decimal": decimal}
+    return dict
 
 
-func get_time_string(t: float = -1.0) -> String:
-	var time_dict := get_minute_second_decimal(t)
-	var text := "%02d:%02d.%02d" % [time_dict["minute"], time_dict["second"], time_dict["decimal"]]
-	return text
+func get_time_string(t: float=-1.0) -> String:
+    var time_dict := get_minute_second_decimal(t)
+    var text := "%02d:%02d.%02d" % [time_dict["minute"], time_dict["second"], time_dict["decimal"]]
+    return text
 
 
 func reset() -> void:
-	time = 0.0
+    time = 0.0
 
 
 func start() -> void:
-	paused = false
+    paused = false
 
 
 func stop() -> void:
-	paused = true
+    paused = true

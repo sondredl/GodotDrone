@@ -1,74 +1,56 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://bsk1mpj5na1ou"]
 
-[ext_resource path="res://GUI/ThemeMenu.tres" type="Theme" id=1]
-[ext_resource path="res://GUI/PauseMenu.gd" type="Script" id=2]
+[ext_resource type="Theme" uid="uid://cg8ia5t16ecpj" path="res://GUI/menu_theme.tres" id="1_kmgdu"]
+[ext_resource type="Script" path="res://GUI/PauseMenu.gd" id="2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ngoj6"]
+font_size = 48
 
 [node name="PauseMenu" type="MarginContainer"]
+process_mode = 2
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_bottom = 100
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-offset_left = 771.0
-offset_top = 320.0
-offset_right = 1148.0
-offset_bottom = 760.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_kmgdu")
+script = ExtResource("2")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 357.0
-offset_bottom = 420.0
-theme_override_constants/separation = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
-offset_right = 337.0
-offset_bottom = 45.0
+layout_mode = 2
 text = "Pause"
-align = 1
-valign = 1
+label_settings = SubResource("LabelSettings_ngoj6")
+horizontal_alignment = 1
 
 [node name="ButtonResume" type="Button" parent="PanelContainer/VBoxContainer"]
-offset_top = 65.0
-offset_right = 337.0
-offset_bottom = 116.0
+unique_name_in_owner = true
+layout_mode = 2
 text = "Resume"
 
 [node name="ButtonQuad" type="Button" parent="PanelContainer/VBoxContainer"]
-offset_top = 136.0
-offset_right = 337.0
-offset_bottom = 187.0
+unique_name_in_owner = true
+layout_mode = 2
 text = "Quad Settings"
 
 [node name="ButtonHelp" type="Button" parent="PanelContainer/VBoxContainer"]
-offset_top = 207.0
-offset_right = 337.0
-offset_bottom = 258.0
+unique_name_in_owner = true
+layout_mode = 2
 text = "Help"
 
 [node name="ButtonOptions" type="Button" parent="PanelContainer/VBoxContainer"]
-offset_top = 278.0
-offset_right = 337.0
-offset_bottom = 329.0
+unique_name_in_owner = true
+layout_mode = 2
 text = "Options"
 
 [node name="ButtonMainMenu" type="Button" parent="PanelContainer/VBoxContainer"]
-offset_top = 349.0
-offset_right = 337.0
-offset_bottom = 400.0
+unique_name_in_owner = true
+layout_mode = 2
 text = "Return to Main Menu"

@@ -1,5 +1,5 @@
-extends Node3D
 class_name Frame
+extends Node3D
 
 
 var collision_shapes := []

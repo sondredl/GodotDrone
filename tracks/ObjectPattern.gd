@@ -4,7 +4,7 @@ extends Node3D
 @export var mesh: Mesh = null
 @export var cone_color := Color(1.0, 1.0, 1.0, 1.0)
 @onready var multimesh_instance := $MultiMeshInstance3D
-func _ready():
+func _ready() -> void:
     var multimesh: MultiMesh = multimesh_instance.multimesh
     var count := 0
     var transforms := []
