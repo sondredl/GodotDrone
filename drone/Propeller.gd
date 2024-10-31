@@ -188,7 +188,7 @@ func update_forces() -> void:
     a1 = (1 - disk_delta) * sigma / 6.0
     a2 = 2 * cd0 * (1 + disk_delta + disk_delta * disk_delta)
     a3 = 3 * cl0 * (disk_delta + 1) * lambda
-    a4 = 6 * (cda * (lambda - theta_tip) - cla * lambda ) * (lambda - theta_tip)
+    a4 = 6 * (cda * (lambda - theta_tip) - cla * lambda) * (lambda - theta_tip)
     a5 = (3 * mu * mu * (cd0 * disk_delta + cda *
                          theta_tip * theta_tip)) / disk_delta
     var cmq := a1 * (a2 + a3 + a4 + a5)

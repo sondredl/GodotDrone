@@ -430,10 +430,10 @@ func load_replays() -> void:
 
 func initialize_replay(drone: Drone) -> void:
     if not drone.is_connected(
-        "transform_updated",
-        Callable(
-            self,
-            "_on_drone_transform_updated")):
+            "transform_updated",
+            Callable(
+                self,
+                "_on_drone_transform_updated")):
         var _discard = drone.connect("transform_updated", Callable(self, "_on_drone_transform_updated"))
     delete_previous_replay()
     record_replay = true
