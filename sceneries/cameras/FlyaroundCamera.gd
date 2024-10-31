@@ -1,10 +1,10 @@
 extends Node3D
 
 
-@export var base_speed := 30.0  # (float, 0.1, 100)
-@export var speed_modifier := 1.5
-@export var look_around_speed := 1.0
-@export var look_around_sensitivity := 0.1
+@export var base_speed: float = 30.0  # (float, 0.1, 100)
+@export var speed_modifier: float = 1.5
+@export var look_around_speed: float = 1.0
+@export var look_around_sensitivity: float = 0.1
 var speed := 0.0
 const MAX_SPEED := 300.0
 const MIN_SPEED := 0.1

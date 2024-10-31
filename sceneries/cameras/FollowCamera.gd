@@ -1,11 +1,11 @@
 extends Camera3D
 
 
-@export var target: NodePath = null
-@export var target_distance := 2.0  # (float, 0.1, 10.0)
-@export var target_offset := Vector3.ZERO
-@export var camera_offset := Vector3.ZERO
-@export var speed := 0.0  # (float, 0, 100)
+@export var target: NodePath = NodePath("")
+@export var target_distance: float = 2.0  # (float, 0.1, 10.0)
+@export var target_offset: = Vector3.ZERO
+@export var camera_offset: = Vector3.ZERO
+@export var speed: float = 0.0  # (float, 0, 100)
 var target_node = null
 
 

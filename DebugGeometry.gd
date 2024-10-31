@@ -1,4 +1,5 @@
-extends ImmediateMesh
+extends MeshInstance3D
+# extends ImmediateMesh
 
 class_name DebugGeometry
 
@@ -14,7 +15,7 @@ enum DebugShape {CUBE, SPHERE, CYLINDER, CONE, ARROW, COORDINATE_SYSTEM, GRID, L
 
 func _ready():
     m.set_flag(3, true)
-    # material_override = m
+    material_override = m
 
 
 func _process(delta):

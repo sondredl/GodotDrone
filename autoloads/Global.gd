@@ -35,14 +35,17 @@ func _input(event: InputEvent) -> void:
 
 func initialize() -> void:
     var dir = DirAccess.open(config_dir)
+    var absolute_dir = ProjectSettings.globalize_path(config_dir)
     # if dir.dir_exists(config_dir):
     # var dir = DirAccess.new.call()
     # if not dir.dir_exists(config_dir):
-    if not dir:
-        var old_dir = DirAccess.open(config_dir_old)
-        if old_dir:
+    # if not dir:
+    if not absolute_dir:
+        # var old_dir = DirAccess.open(config_dir_old)
+        var absolute_old_dir = ProjectSettings.globalize_path(config_dir_old)
+        if absolute_old_dir:
             # if dir.dir_exists(config_dir_old):
-            var _discard = dir.rename(config_dir_old, config_dir)
+            var _discard = dir.rename(absolute_old_dir, absolute_dir)
         else:
             # var _discard = dir.make_dir(config_dir)
             # var _discard = DirAccess.make_dir_absolute(config_dir)
@@ -54,9 +57,11 @@ func initialize() -> void:
         else:
             var _discard = dir.make_dir(replay_dir)
     if not dir.file_exists(highscore_path):
-        var file = FileAccess.new.call()
-        var _discard = file.open(highscore_path, FileAccess.WRITE)
-        file.close()
+        # var file = FileAccess.new.call()
+        var _discard = FileAccess.open(highscore_path, FileAccess.WRITE)
+        # var _discard = file.open(highscore_path, FileAccess.WRITE)
+        # file.close()
+        _discard.close()
 
     startup = false
 

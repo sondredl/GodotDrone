@@ -7,8 +7,11 @@
 [ext_resource path="res://drone/RadioController.gd" type="Script" id=5]
 [ext_resource path="res://drone/dev_prototype_drone.tscn" type="PackedScene" id=6]
 [ext_resource path="res://tracks/gates/Gate.tscn" type="PackedScene" id=7]
-[ext_resource path="res://sceneries/FlyaroundCamera.tscn" type="PackedScene" id=8]
-[ext_resource path="res://sceneries/FollowCamera.tscn" type="PackedScene" id=9]
+; [ext_resource path="res://sceneries/FlyaroundCamera.tscn" type="PackedScene" id=8]
+[ext_resource path="res://sceneries/cameras/FlyaroundCamera.tscn" type="PackedScene" id=8]
+[ext_resource path="res://sceneries/cameras/FollowCamera.tscn" type="PackedScene" id=9]
+
+; [ext_resource path="res://sceneries/FollowCamera.tscn" type="PackedScene" id=9]
 
 
 
