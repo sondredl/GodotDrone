@@ -242,9 +242,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
             # var prop_pos := prop.global_transform.origin -
             # global_transform.origin
             var prop_xform := motor.transform * prop.transform
-            var prop_local_pos := prop_pos * prop_xform
-            prop.velocity = lin_vel * bas + \
-                (ang_vel * bas).cross(prop_local_pos)
+            # var prop_local_pos := prop_pos * prop_xform
+            # prop.velocity = lin_vel * bas + \
+            # 	(ang_vel * bas).cross(prop_local_pos)
             prop.update_forces()
             var prop_forces: Array[Vector3] = prop.forces
             var prop_thrust := bas * prop_forces[0]
@@ -300,11 +300,11 @@ func update_hud_data(delta: float) -> void:
     var velocity := flight_controller.lin_vel
     var pos := flight_controller.pos
     var input := flight_controller.input
-    var left_stick := Vector2(input.yaw, -2 * (input.power - 0.5))
-    var right_stick := Vector2(input.roll, input.pitch)
+    # var left_stick := Vector2(input.yaw, -2 * (input.power - 0.5))
+    # var right_stick := Vector2(input.roll, input.pitch)
     var mot := flight_controller.motors
     var rpm := [mot[0].rpm, mot[1].rpm, mot[2].rpm, mot[3].rpm]
-    hud.update_data(delta, pos, angles, velocity, left_stick, right_stick, rpm)
+    # hud.update_data(delta, pos, angles, velocity, left_stick, right_stick, rpm)
 
 
 func reset() -> void:

@@ -339,10 +339,10 @@ func _on_binding_clicked(binding: GUIControllerBinding) -> void:
     var _discard = binding_popup.confirm_pressed.connect(
         func _on_confirmed_pressed() -> void:
         if binding_event or binding_popup_clear and not binding_event:
-        update_binding(binding, binding_event)
-        binding_event=null
-        binding_popup_clear=false
-        clear_popup.call()
+            update_binding(binding, binding_event)
+            binding_event=null
+            binding_popup_clear=false
+            clear_popup.call()
     )
     _discard = binding_popup.cancel_pressed.connect(
         func _on_cancel_pressed() -> void:
