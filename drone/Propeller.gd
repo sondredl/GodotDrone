@@ -188,7 +188,7 @@ func update_forces() -> void:
     a1 = (1 - disk_delta) * sigma / 6.0
     a2 = 2 * cd0 * (1 + disk_delta + disk_delta * disk_delta)
     a3 = 3 * cl0 * (disk_delta + 1) * lambda
-    a4 = 6 * (cda * (lambda - theta_tip) - cla * lambda) * (lambda - theta_tip)
+    a4 = 6 * (cda * (lambda - theta_tip) - cla * lambda ) * (lambda - theta_tip)
     a5 = (3 * mu * mu * (cd0 * disk_delta + cda *
                          theta_tip * theta_tip)) / disk_delta
     var cmq := a1 * (a2 + a3 + a4 + a5)
@@ -253,7 +253,18 @@ func get_ground_effect() -> float:
     var ray_length := max_ray_length
     if ray.is_colliding():
         # ray_length = min(abs((ray.get_collision_point()) *
-        # 				 global_transform.y), max_ray_length)
+        #             global_transform.y), max_ray_length)
+
+        # Get the collision point from the ray
+        var collision_point = ray.get_collision_point()
+
+        # Project the collision point onto the y-axis and take the absolute
+        # value
+        var projected_length = abs(collision_point.dot(global_transform.basis.y))
+
+        # Clamp the result to max_ray_length
+        ray_length = min(projected_length, max_ray_length)
+
         var b_square := gnd_b * gnd_b
         var d_square := gnd_d * gnd_d
         var r_square := gnd_radius * gnd_radius

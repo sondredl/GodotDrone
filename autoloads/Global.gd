@@ -34,12 +34,20 @@ func _input(event: InputEvent) -> void:
 
 
 func initialize() -> void:
-    var dir = DirAccess.new.call()
-    if not dir.dir_exists(config_dir):
-        if dir.dir_exists(config_dir_old):
+    var dir = DirAccess.open(config_dir)
+    # if dir.dir_exists(config_dir):
+    # var dir = DirAccess.new.call()
+    # if not dir.dir_exists(config_dir):
+    if not dir:
+        var old_dir = DirAccess.open(config_dir_old)
+        if old_dir:
+            # if dir.dir_exists(config_dir_old):
             var _discard = dir.rename(config_dir_old, config_dir)
         else:
-            var _discard = dir.make_dir(config_dir)
+            # var _discard = dir.make_dir(config_dir)
+            # var _discard = DirAccess.make_dir_absolute(config_dir)
+            var _discard = ProjectSettings.globalize_path(config_dir)
+            # var _discard = DirAccess.make_dir_recursive_absolute(config_dir)
     if not dir.dir_exists(replay_dir):
         if dir.dir_exists(replay_dir_old):
             var _discard = dir.rename(replay_dir_old, replay_dir)

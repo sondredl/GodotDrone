@@ -12,9 +12,9 @@ var triangles = []
 enum DebugShape {CUBE, SPHERE, CYLINDER, CONE, ARROW, COORDINATE_SYSTEM, GRID, LINE, POINT}
 
 
-# func _ready():
-# 	m.set_flag(3, true)
-# 	material_override = m
+func _ready():
+    m.set_flag(3, true)
+    # material_override = m
 
 
 func _process(delta):

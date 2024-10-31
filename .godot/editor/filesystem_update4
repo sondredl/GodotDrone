@@ -27,3 +27,9 @@ res://tracks/TimeTable.gd
 res://tracks/Track.gd
 res://GUI/MainMenu.tscn
 res://sceneries/cameras/FollowCamera.tscn
+res://tracks/PathedObject.gd
+res://drone/LED.gd
+res://sceneries/Level.gd
+res://drone/Frame.gd
+res://autoloads/GameSettings.gd
+res://sceneries/cameras/FlyaroundCamera.gd

@@ -26,6 +26,7 @@ func _ready() -> void:
             expo_roll,
             expo_yaw))
     # update()
+    queue_redraw()
 
 
 func update_rates(rates: Vector3, expos: Vector3) -> void:
@@ -66,6 +67,7 @@ func update_rates(rates: Vector3, expos: Vector3) -> void:
         roll[i].y = (2 - (roll[i].y / max_rate + 1)) * graph_size / 2
         yaw[i].y = (2 - (yaw[i].y / max_rate + 1)) * graph_size / 2
     # update()
+    queue_redraw()
 
 
 func _draw() -> void:

@@ -109,10 +109,12 @@ func load_input_map(update_controller: bool=false) -> String:
                     if ["throttle_up", "yaw_left", "pitch_up",
                             "roll_left"].has(action):
                         event = InputEventJoypadMotion.new()
-                        # event.axis = Input.get_joy_axis_index_from_string(config.get_value(section, action)) # gamepad
-                        # var axis_string = config.get_value(section, action)
-                        # event.axis = axis_mapping.get(axis_string, -1)  # Use
-                        # -1 as a fallback if the axis_string isn't found
+                        # event.axis =
+                        # Input.get_joy_axis_index_from_string(config.get_value(section,
+                        # action)) # gamepad
+                        var axis_string = config.get_value(section, action)
+                        # Use -1 as a fallback if the axis_string isn't found
+                        event.axis = axis_mapping.get(axis_string, -1)
                         event.axis_value = -1.0
                         current_action = action
                         continue

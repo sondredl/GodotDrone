@@ -25,13 +25,35 @@ func _ready():
     for i in range(4):
         if i == 1 or i == 3:
             prop = "CCW"
-        # get_node("Motor%d/Propeller%d/%s" % [i + 1, i + 1, prop]) \
-        # 	super.mesh.surface_get_material(0).set_shader_parameter("propeller_color", color)
+        # get_node("Motor%d/Propeller%d/%s" % [i + 1, i + 1, prop]) super.mesh.surface_get_material(0).set_shader_parameter("propeller_color", color)
+        # Get the specific node path using formatted string
+        var propeller_path = "Motor%d/Propeller%d/%s" % [i + 1, i + 1, prop]
+        var propeller = get_node(propeller_path)
+
+        # Check if the node and its material exist before accessing
+        if propeller and propeller.mesh:
+            var material = propeller.mesh.surface_get_material(0)
+            if material:
+                material.set_shader_parameter("propeller_color", color)
+            else:
+                push_error(
+                    "Material not found on propeller at path: " +
+                    propeller_path)
+        else:
+            push_error("Propeller node not found at path: " + propeller_path)
 
 
 func _process(delta):
     # transform = Transform3D.IDENTITY.rotated(Vector3.UP, -yaw * ANGLE) \
     # 	super.rotated(Vector3.RIGHT, pitch * ANGLE).rotated(Vector3.FORWARD, roll * ANGLE)
+    # Start with an identity transform
+    var transform = Transform3D.IDENTITY
+
+    # Apply each rotation sequentially
+    transform = transform.rotated(Vector3.UP, -yaw * ANGLE)
+    transform = transform.rotated(Vector3.RIGHT, pitch * ANGLE)
+    transform = transform.rotated(Vector3.FORWARD, roll * ANGLE)
+
     $Motor1 / Motor_Rotor.rotate_object_local(Vector3.UP, min(-(throttle * RPM - yaw + pitch + roll) * RPM * delta, 0))
     $Motor1 / Propeller1.rotate_object_local(Vector3.UP, min(-(throttle * RPM - yaw + pitch + roll) * RPM * delta, 0))
     $Motor2 / Motor_Rotor.rotate_object_local(Vector3.UP, max((throttle * RPM + yaw + pitch - roll) * RPM * delta, 0))
