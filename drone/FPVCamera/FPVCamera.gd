@@ -51,25 +51,26 @@ func _ready() -> void:
     mat.set_shader_parameter("hfov", fov_h)
 
     # var root_viewport: SubViewport = get_tree().root
-    var root_viewport = get_tree().root
+    # var root_viewport = get_tree().root
+    var root_viewport = get_viewport()
     for i in range(num_cameras):
         var viewport := SubViewport.new()
         add_child(viewport)
         viewport.size = Graphics.fisheye_resolution * Vector2.ONE
-        viewport.shadow_atlas_size = root_viewport.shadow_atlas_size
-        if Graphics.graphics_settings["fisheye_msaa"] == Graphics.FisheyeMSAA.SAME_AS_GAME:
-            viewport.msaa = root_viewport.msaa
-        else:
-            viewport.msaa = Graphics.graphics_settings["fisheye_msaa"]
-        viewport.hdr = true
-        viewport.keep_3d_linear = true
-        viewports.append(viewport)
-        mat.set_shader_parameter(
-            "Texture2D%d" %
-            [i], viewports[i].get_texture())
+        # viewport.shadow_atlas_size = root_viewport.shadow_atlas_size
+        # if Graphics.graphics_settings["fisheye_msaa"] == Graphics.FisheyeMSAA.SAME_AS_GAME:
+        # 	viewport.msaa = root_viewport.msaa
+        # else:
+        # 	viewport.msaa = Graphics.graphics_settings["fisheye_msaa"]
+        # viewport.hdr = true
+        # viewport.keep_3d_linear = true
+        # viewports.append(viewport)
+        # mat.set_shader_parameter(
+        # 	"Texture2D%d" %
+        # 	[i], viewports[i].get_texture())
 
         var camera := Camera3D.new()
-        viewport.add_child(camera)
+        # viewport.add_child(camera)
         camera.fov = 90
         if fisheye_mode == Graphics.FisheyeMode.FAST and i == 1:
             camera.fov = 160

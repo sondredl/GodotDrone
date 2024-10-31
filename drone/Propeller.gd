@@ -6,7 +6,7 @@ class_name Propeller
 @onready var cw := $CW
 @onready var ccw := $CCW
 @onready var prop_disk := $PropBlurDisk
-@onready var ray := $RayCast3D
+@onready var ray := $ParentNode / RayCast3D
 var max_ray_length := 0.0
 
 
@@ -53,17 +53,22 @@ func _ready() -> void:
     set_visibility(true)
     prop_disk.visible = false
 
-    var parent: Node3D = get_parent()
-    while parent is not Drone:
-        ray.add_exception(parent)
-        parent = parent.get_parent()
-        if parent is Drone:
+    if ray:
+        var parent: Node3D = get_parent()
+        while parent is not Drone:
             ray.add_exception(parent)
-        elif not parent:
-            break
-    max_ray_length = min(diameter * 0.0254 * 2, ray.target_position.length())
-    ray.target_position = ray.target_position.normalized() * max_ray_length
-    ray.enabled = true
+            parent = parent.get_parent()
+            if parent is Drone:
+                ray.add_exception(parent)
+            elif not parent:
+                break
+        max_ray_length = min(
+            diameter * 0.0254 * 2,
+            ray.target_position.length())
+        ray.target_position = ray.target_position.normalized() * max_ray_length
+        ray.enabled = true
+    else:
+        print("RayCast3D node not found")
 
     theta_tip = deg_to_rad(theta_tip)
 
@@ -98,25 +103,56 @@ func set_visibility(show_prop: bool) -> void:
         ccw.visible = false
 
 
+# func set_color(col: Color) -> void:
+# 	if !is_inside_tree():
+# 		await self.ready
+# 	color = col
+# 	if cw:
+# 		cw.mesh.surface_get_material( 0).set_shader_parameter("propeller_color", color)
+# 		ccw.mesh.surface_get_material( 0).set_shader_parameter("propeller_color", color)
+# 		prop_disk.mesh.surface_get_material( 0).set_shader_parameter("propeller_color", color)
+
+func set_material_color(mesh_instance: MeshInstance3D, col: Color) -> void:
+    var material = mesh_instance.mesh.surface_get_material(0)
+    if material is ShaderMaterial:
+        material.set_shader_parameter("propeller_color", col)
+    else:
+        print("Material is not a ShaderMaterial, unable to set shader parameter.")
+
 func set_color(col: Color) -> void:
     if !is_inside_tree():
         await self.ready
-    color = col
-    cw.mesh.surface_get_material(
-        0).set_shader_parameter("propeller_color", color)
-    ccw.mesh.surface_get_material(
-        0).set_shader_parameter("propeller_color", color)
-    prop_disk.mesh.surface_get_material(
-        0).set_shader_parameter("propeller_color", color)
 
+    color = col
+
+    # Function to set the color on the mesh materials
+
+    if cw:
+        set_material_color(cw, color)
+
+    if ccw:
+        set_material_color(ccw, color)
+
+    if prop_disk:
+        set_material_color(prop_disk, color)
+
+
+# func set_prop_disk_alpha(alpha: float) -> void:
+# 	if !is_inside_tree():
+# 		await self.ready
+# 	prop_disk_alpha = alpha
+# 	prop_disk.mesh.surface_get_material(
+# 		0).set_shader_parameter("alpha_boost", prop_disk_alpha)
 
 func set_prop_disk_alpha(alpha: float) -> void:
     if !is_inside_tree():
         await self.ready
     prop_disk_alpha = alpha
-    prop_disk.mesh.surface_get_material(
-        0).set_shader_parameter("alpha_boost", prop_disk_alpha)
-
+    var material = prop_disk.mesh.surface_get_material(0)
+    if material is ShaderMaterial:
+        material.set_shader_parameter("alpha_boost", prop_disk_alpha)
+    else:
+        print("Material is not a ShaderMaterial; cannot set alpha_boost")
 
 func set_prop_disk_emission(emission: float) -> void:
     if !is_inside_tree():
